@@ -13,7 +13,8 @@ import {reducers, metaReducers} from './reducers';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
-import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
+import {CustomSerializer} from './shared/router/custom-router-state-serializer';
 
 @NgModule({
     declarations: [AppComponent],
@@ -28,6 +29,7 @@ import {StoreRouterConnectingModule} from '@ngrx/router-store';
     providers: [
         StatusBar,
         SplashScreen,
+        { provide: RouterStateSerializer, useClass: CustomSerializer },
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]
