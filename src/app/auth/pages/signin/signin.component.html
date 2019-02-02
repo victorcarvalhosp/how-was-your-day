@@ -1,0 +1,38 @@
+<ion-header no-border>
+        <ion-toolbar class="transparent-toolbar">
+        </ion-toolbar>
+</ion-header>
+
+<ion-content padding fullscreen>
+    <ion-row>
+        <ion-col text-center>
+            <div style="height: 30px">
+                <h4 *ngIf="!form.pending">Já nos conhecemos?</h4>
+                <ion-spinner *ngIf="form.pending"></ion-spinner>
+            </div>
+        </ion-col>
+    </ion-row>
+    <form (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" [formGroup]="form">
+        <ion-row>
+            <ion-col>
+                <ion-item inset>
+                    <ion-label position="floating">E-mail</ion-label>
+                    <ion-input id="identifier" type="email" formControlName="identifier" #username></ion-input>
+                </ion-item>
+
+                <ion-item inset>
+                    <ion-label position="floating">Password</ion-label>
+                    <ion-input id="password" type="password" formControlName="password"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button shape="round" type="submit" [disabled]="form.pending" float-right>
+                    <span>LOGIN</span>
+                    <ion-icon name="arrow-forward"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>
