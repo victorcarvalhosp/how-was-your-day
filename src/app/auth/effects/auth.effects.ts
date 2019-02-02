@@ -15,7 +15,7 @@ export class AuthEffects {
         // Once it detects such signal (it's a string as we defined in "Action")
         // It will call
     login$ = this.actions$.pipe(
-        ofType(AuthActionTypes.Login),
+        ofType(AuthActionTypes.LOGIN),
         map((action: Login) => action.payload),
         // Use `exhaustMap` to wait for Observable respond
         exhaustMap((auth: IAuthentication) =>
@@ -34,7 +34,7 @@ export class AuthEffects {
     @Effect({dispatch: false})
         // If the user is logged in, let it goes to "Team App"
     loginSuccess$ = this.actions$.pipe(
-        ofType(AuthActionTypes.Success),
+        ofType(AuthActionTypes.SUCESS),
         tap(() => this.router.navigate(['']))
     );
 
@@ -42,7 +42,7 @@ export class AuthEffects {
         // Probably the user enter some routes directly, and we require it to login
         // As for permission, we can do the same thing to redirect it to somewhere for requesting the permissions
     loginRedirect$ = this.actions$.pipe(
-        ofType(AuthActionTypes.Required),
+        ofType(AuthActionTypes.REQUIRED),
         tap(() => {
             this.router.navigate(['/auth']);
         })

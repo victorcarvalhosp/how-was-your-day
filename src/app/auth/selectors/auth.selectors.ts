@@ -7,12 +7,12 @@ export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
 export const isLoginLoading = createSelector(
     selectAuthState,
-    authState => authState.isLoading
+    authState => authState.loading
 );
 
 export const isLoggedIn = createSelector(
     selectAuthState,
-    authState => authState.isAuthenticated
+    authState => authState.authenticated
 );
 
 export const isLoggedOut = createSelector(

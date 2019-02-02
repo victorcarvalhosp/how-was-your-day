@@ -5,45 +5,45 @@ import UserCredential = firebase.auth.UserCredential;
 
 // Here is the final state required by the app
 export interface AuthState {
-    isAuthenticated: boolean;
+    authenticated: boolean;
     // Name is what we passed in "Actions" as payload, thus it can be a model if needed
     userCredentials: UserCredential;
     errorMessage: string;
-    isLoading: boolean;
+    loading: boolean;
 }
 
 // Here is the initial state set if no changes happened
 export const initialState: AuthState = {
-    isAuthenticated: false,
+    authenticated: false,
     userCredentials: null,
     errorMessage: '',
-    isLoading: false
+    loading: false
 };
 
 export function reducer(state = initialState, action: AuthActions): AuthState {
     switch (action.type) {
         // Case can be more complex
-        // "Login" is not put since it's not used for representing a status (AuthState)
-        case AuthActionTypes.Login:
+        // "LOGIN" is not put since it's not used for representing a status (AuthState)
+        case AuthActionTypes.LOGIN:
             return {
                 ...state,
-                isAuthenticated: false,
-                isLoading: true,
+                authenticated: false,
+                loading: true,
                 errorMessage: '',
             };
-        case AuthActionTypes.Success:
+        case AuthActionTypes.SUCESS:
             return {
                 ...state,
-                isAuthenticated: true,
-                isLoading: false,
+                authenticated: true,
+                loading: false,
                 userCredentials: action.payload,
                 errorMessage: '',
             };
-        case AuthActionTypes.Failed:
+        case AuthActionTypes.FAILED:
             return {
                 ...state,
-                isLoading: false,
-                isAuthenticated: false,
+                loading: false,
+                authenticated: false,
                 userCredentials: null,
                 errorMessage: action.payload,
             };

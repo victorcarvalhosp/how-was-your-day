@@ -24,15 +24,7 @@ export class SigninComponent implements OnInit {
     errorMessage$ = this.store.pipe(select(loginErrorMessage));
 
     constructor(private store: Store<State>,
-                private fb: FormBuilder,
-                private auth: AuthService,
-                private router: Router) {
-
-        this.form = fb.group({
-            identifier: ['', Validators.compose([Validators.required, Validators.email])],
-            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
-        });
-        this.createValidationMessages();
+                private fb: FormBuilder) {
     }
 
     private createValidationMessages() {
@@ -52,6 +44,11 @@ export class SigninComponent implements OnInit {
 
     ngOnInit() {
         this.loading$ = this.store.pipe(select(isLoginLoading));
+        this.form = this.fb.group({
+            identifier: ['', Validators.compose([Validators.required, Validators.email])],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+        });
+        this.createValidationMessages();
     }
 
     onSubmit() {
