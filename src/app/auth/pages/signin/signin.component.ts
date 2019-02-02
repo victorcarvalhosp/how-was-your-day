@@ -21,10 +21,7 @@ export class SigninComponent implements OnInit {
     validations: Validations;
 
     loading$: Observable<boolean>;
-
-    // The risky obserable object might be used to show some msg in template
     errorMessage$ = this.store.pipe(select(loginErrorMessage));
-
 
     constructor(private store: Store<State>,
                 private fb: FormBuilder,
