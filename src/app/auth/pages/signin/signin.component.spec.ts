@@ -31,4 +31,51 @@ describe('SigninComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('form invalid when empty', () => {
+    expect(component.form.valid).toBeFalsy();
+  });
+
+  it('identifier field validity', () => {
+    let errors = {};
+    const identifier = component.form.controls['identifier'];
+    expect(identifier.valid).toBeFalsy();
+
+    // Email field is required
+    errors = identifier.errors || {};
+    expect(errors['required']).toBeTruthy();
+
+    // Set email to something
+    identifier.setValue('test');
+    errors = identifier.errors || {};
+    expect(errors['required']).toBeFalsy();
+    expect(errors['email']).toBeTruthy();
+
+    // Set email to something correct
+    identifier.setValue('test@example.com');
+    errors = identifier.errors || {};
+    expect(errors['required']).toBeFalsy();
+    expect(errors['email']).toBeFalsy();
+  });
+
+  it('password field validity', () => {
+    let errors = {};
+    const password = component.form.controls['password'];
+
+    // Password field is required
+    errors = password.errors || {};
+    expect(errors['required']).toBeTruthy();
+
+    // Set password to something
+    password.setValue('12345');
+    errors = password.errors || {};
+    expect(errors['required']).toBeFalsy();
+    expect(errors['minlength']).toBeTruthy();
+
+    // Set password to something correct
+    password.setValue('123456789');
+    errors = password.errors || {};
+    expect(errors['required']).toBeFalsy();
+    expect(errors['minlength']).toBeFalsy();
+  });
+
 });
