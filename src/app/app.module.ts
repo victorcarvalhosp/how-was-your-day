@@ -17,6 +17,7 @@ import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-s
 import {CustomSerializer} from './shared/router/custom-router-state-serializer';
 import { AngularFireModule } from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 @NgModule({
     declarations: [AppComponent],
@@ -29,7 +30,8 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
         EffectsModule.forRoot([]),
         StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFireAuthModule
+        AngularFireAuthModule,
+        AngularFirestoreModule
     ],
 
     providers: [

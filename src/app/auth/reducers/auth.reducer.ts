@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
                 loading: true,
                 errorMessage: '',
             };
-        case AuthActionTypes.SUCESS:
+        case AuthActionTypes.LOGIN_SUCESS:
             return {
                 ...state,
                 authenticated: true,
@@ -39,7 +39,22 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
                 userCredentials: action.payload,
                 errorMessage: '',
             };
-        case AuthActionTypes.FAILED:
+        case AuthActionTypes.LOGIN_FAILED:
+            return {
+                ...state,
+                loading: false,
+                authenticated: false,
+                userCredentials: null,
+                errorMessage: action.payload,
+            };
+        case AuthActionTypes.SIGNUP:
+            return {
+                ...state,
+                authenticated: false,
+                loading: true,
+                errorMessage: '',
+            };
+        case AuthActionTypes.SIGNUP_FAILED:
             return {
                 ...state,
                 loading: false,

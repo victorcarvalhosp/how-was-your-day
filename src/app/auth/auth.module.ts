@@ -9,6 +9,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import { SignupComponent } from './pages/signup/signup.component';
 
 
 export const authRoutes: Routes = [
@@ -16,11 +17,16 @@ export const authRoutes: Routes = [
         path: '',
         component: SigninComponent
 
+    },
+    {
+        path: 'signup',
+        component: SignupComponent
+
     }
 ];
 
 @NgModule({
-    declarations: [SigninComponent],
+    declarations: [SigninComponent, SignupComponent],
     imports: [
         IonicModule,
         ReactiveFormsModule,
@@ -29,7 +35,8 @@ export const authRoutes: Routes = [
         EffectsModule.forFeature([AuthEffects]),
         StoreModule.forFeature('auth', reducer),
 
-    ]
+    ],
+    exports: [SigninComponent]
 })
 export class AuthModule {
 }
