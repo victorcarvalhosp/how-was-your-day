@@ -22,8 +22,11 @@ export class AuthEffects {
             this.authService
                 .login(auth)
                 .pipe(
-                    map(username => new LoginSuccess(username)),
-                    catchError(error => of(new LoginFailed(error)))
+                    map(userCredential => new LoginSuccess(userCredential)),
+                    catchError(error => {
+                        console.log(error);
+                        return of(new LoginFailed(error.message));
+                    })
                 )
         )
     );

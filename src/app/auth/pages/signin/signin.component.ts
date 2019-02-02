@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {State} from '../../../reducers';
-import {tap} from 'rxjs/operators';
-import {noop, pipe} from 'rxjs';
-import {AuthActions, Login, LoginSuccess} from '../../actions/auth.actions';
+import {Observable} from 'rxjs';
+import {Login} from '../../actions/auth.actions';
 import {IAuthentication} from '../../models/authentication';
+import {loginErrorMessage, isLoginLoading} from '../../selectors/auth.selectors';
+import {Validations} from '../../../shared/validators/validations';
 
 @Component({
     selector: 'app-signin',
@@ -17,9 +18,12 @@ import {IAuthentication} from '../../models/authentication';
 export class SigninComponent implements OnInit {
 
     form: FormGroup;
+    validations: Validations;
+
+    loading$: Observable<boolean>;
 
     // The risky obserable object might be used to show some msg in template
-    // risky$ = this.store.pipe(select(fromTeam.getAuthRisk));
+    errorMessage$ = this.store.pipe(select(loginErrorMessage));
 
 
     constructor(private store: Store<State>,
@@ -28,19 +32,39 @@ export class SigninComponent implements OnInit {
                 private router: Router) {
 
         this.form = fb.group({
-            identifier: ['test@angular-university.io', [Validators.required]],
-            password: ['test', [Validators.required]]
+            identifier: ['', Validators.compose([Validators.required, Validators.email])],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
         });
+        this.createValidationMessages();
+    }
 
+    private createValidationMessages() {
+        this.validations = new Validations(
+            {
+                'identifier': {
+                    'required': 'E-mail is required.',
+                    'email': 'Please enter a valid email address.',
+                },
+                'password': {
+                    'required': 'Password is required.',
+                    'minlength': 'Please enter at least 6 characters.',
+                }
+            }
+        );
     }
 
     ngOnInit() {
-
+        this.loading$ = this.store.pipe(select(isLoginLoading));
     }
 
     onSubmit() {
         const auth: IAuthentication = {...this.form.value};
         this.store.dispatch(new Login(auth));
+    }
+
+    getError(name: string) {
+        const control = this.form.get(name);
+        return this.validations.getControlErrors(control);
     }
 
 }

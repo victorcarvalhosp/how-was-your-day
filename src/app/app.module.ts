@@ -15,6 +15,8 @@ import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {CustomSerializer} from './shared/router/custom-router-state-serializer';
+import { AngularFireModule } from '@angular/fire';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 @NgModule({
     declarations: [AppComponent],
@@ -25,7 +27,11 @@ import {CustomSerializer} from './shared/router/custom-router-state-serializer';
         StoreModule.forRoot(reducers, {metaReducers}),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         EffectsModule.forRoot([]),
-        StoreRouterConnectingModule.forRoot({stateKey: 'router'})],
+        StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule
+    ],
+
     providers: [
         StatusBar,
         SplashScreen,

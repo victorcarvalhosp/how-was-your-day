@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, throwError} from 'rxjs';
 import {IAuthentication} from '../models/authentication';
+import {AngularFireAuth} from '@angular/fire/auth';
+import UserCredential = firebase.auth.UserCredential;
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 
 @Injectable({
@@ -8,18 +11,9 @@ import {IAuthentication} from '../models/authentication';
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(public afAuth: AngularFireAuth) { }
 
-  login(data: IAuthentication): Observable<string> {
-
-    // Do something you like to validate the credentials
-    // Eg, Call the API -> subscribe -> check -> hanlde error ... etc
-    const valid = true;
-    if (!valid) {
-      throwError('Invalid credentials');
-    }
-
-    // Pretending all good, return the username
-    return of('Sun,Yat-Sen');
+  login(data: IAuthentication): Observable<UserCredential> {
+    return fromPromise(this.afAuth.auth.signInWithEmailAndPassword(data.identifier, data.password));
   }
 }

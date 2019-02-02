@@ -1,13 +1,12 @@
 import { Action } from '@ngrx/store';
 import {IAuthentication} from '../models/authentication';
+import UserCredential = firebase.auth.UserCredential;
 
 export enum AuthActionTypes {
   Login = '[Auth] Login',
   Success = '[Auth] Success',
   Failed = '[Auth] Failed',
   Required = '[Auth] Required',
-  
-  
 }
 
 export class Login implements Action {
@@ -24,13 +23,13 @@ export class LoginSuccess implements Action {
 
   // The username will be given as a string
   // In real scenario, it should be a model as well
-  constructor(public payload: string) {}
+  constructor(public payload: UserCredential) {}
 }
 
 export class LoginFailed implements Action {
   readonly type = AuthActionTypes.Failed;
   // Failed login, we can use it to do some record or error msg showing
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class LoginRequired implements Action {

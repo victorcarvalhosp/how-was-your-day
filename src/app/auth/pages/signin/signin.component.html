@@ -1,5 +1,6 @@
 <ion-header no-border>
         <ion-toolbar class="transparent-toolbar">
+            <ion-title>Signin</ion-title>
         </ion-toolbar>
 </ion-header>
 
@@ -7,8 +8,7 @@
     <ion-row>
         <ion-col text-center>
             <div style="height: 30px">
-                <h4 *ngIf="!form.pending">Já nos conhecemos?</h4>
-                <ion-spinner *ngIf="form.pending"></ion-spinner>
+                <ion-spinner *ngIf="form.pending || (loading$ | async)"></ion-spinner>
             </div>
         </ion-col>
     </ion-row>
@@ -19,18 +19,27 @@
                     <ion-label position="floating">E-mail</ion-label>
                     <ion-input id="identifier" type="email" formControlName="identifier" #username></ion-input>
                 </ion-item>
-
+                <div class="error-hint">
+                    {{ getError('identifier') }}
+                </div>
                 <ion-item inset>
                     <ion-label position="floating">Password</ion-label>
                     <ion-input id="password" type="password" formControlName="password"></ion-input>
                 </ion-item>
+                <div class="error-hint">
+                    {{ getError('password') }}
+                </div>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
-                <ion-button shape="round" type="submit" [disabled]="form.pending" float-right>
+                <div class="error-hint" align="center">
+                    {{errorMessage$ | async}}
+                </div>
+                <ion-button shape="round" type="submit" [disabled]="!form.valid || form.pending || (loading$ | async)" float-right>
                     <span>LOGIN</span>
-                    <ion-icon name="arrow-forward"></ion-icon>
+                    <ion-icon name="arrow-forward" *ngIf="!(loading$ | async)"></ion-icon>
+                    <ion-spinner *ngIf="(loading$ | async)"></ion-spinner>
                 </ion-button>
             </ion-col>
         </ion-row>
