@@ -11,7 +11,7 @@ export class SplashComponent implements OnInit {
   constructor(private router: Router) {
 
     setTimeout(time => {
-      this.router.navigate(['/auth/signup']);
+      this.router.navigate(['/auth']);
     }, 2000);
   }
 

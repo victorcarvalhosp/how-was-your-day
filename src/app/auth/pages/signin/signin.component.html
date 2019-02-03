@@ -1,47 +1,55 @@
 <ion-header no-border>
+    <app-responsive-area>
         <ion-toolbar class="transparent-toolbar">
+            <ion-buttons slot="start">
+                <ion-back-button defaultHref="/auth"></ion-back-button>
+            </ion-buttons>
             <ion-title>Signin</ion-title>
         </ion-toolbar>
+    </app-responsive-area>
 </ion-header>
-
 <ion-content padding fullscreen>
-    <ion-row>
-        <ion-col text-center>
-            <div style="height: 30px">
-                <ion-spinner *ngIf="form.pending || (loading$ | async)"></ion-spinner>
-            </div>
-        </ion-col>
-    </ion-row>
-    <form (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" [formGroup]="form">
+    <app-responsive-area>
+
         <ion-row>
-            <ion-col>
-                <ion-item inset>
-                    <ion-label position="floating">E-mail</ion-label>
-                    <ion-input id="identifier" type="email" formControlName="identifier" #username></ion-input>
-                </ion-item>
-                <div class="error-hint">
-                    {{ getError('identifier') }}
-                </div>
-                <ion-item inset>
-                    <ion-label position="floating">Password</ion-label>
-                    <ion-input id="password" type="password" formControlName="password"></ion-input>
-                </ion-item>
-                <div class="error-hint">
-                    {{ getError('password') }}
+            <ion-col text-center>
+                <div style="height: 30px">
+                    <ion-spinner *ngIf="form.pending || (loading$ | async)"></ion-spinner>
                 </div>
             </ion-col>
         </ion-row>
-        <ion-row>
-            <ion-col>
-                <div class="error-hint" align="center">
-                    {{errorMessage$ | async}}
-                </div>
-                <ion-button shape="round" type="submit" [disabled]="!form.valid || form.pending || (loading$ | async)" float-right>
-                    <span>LOGIN</span>
-                    <ion-icon name="arrow-forward" *ngIf="!(loading$ | async)"></ion-icon>
-                    <ion-spinner *ngIf="(loading$ | async)"></ion-spinner>
-                </ion-button>
-            </ion-col>
-        </ion-row>
-    </form>
+        <form (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" [formGroup]="form">
+            <ion-row>
+                <ion-col>
+                    <ion-item inset>
+                        <ion-label position="floating">E-mail</ion-label>
+                        <ion-input id="identifier" type="email" formControlName="identifier" #username></ion-input>
+                    </ion-item>
+                    <div class="error-hint">
+                        {{ getError('identifier') }}
+                    </div>
+                    <ion-item inset>
+                        <ion-label position="floating">Password</ion-label>
+                        <ion-input id="password" type="password" formControlName="password"></ion-input>
+                    </ion-item>
+                    <div class="error-hint">
+                        {{ getError('password') }}
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <div class="error-hint" align="center">
+                        {{errorMessage$ | async}}
+                    </div>
+                    <ion-button shape="round" type="submit"
+                                [disabled]="!form.valid || form.pending || (loading$ | async)" expand="full">
+                        <span>LOGIN</span>
+                        <ion-icon name="arrow-forward" *ngIf="!(loading$ | async)"></ion-icon>
+                        <ion-spinner *ngIf="(loading$ | async)"></ion-spinner>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </app-responsive-area>
 </ion-content>

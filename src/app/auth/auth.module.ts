@@ -9,11 +9,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SignupComponent} from './pages/signup/signup.component';
+import {ChooseComponent} from './pages/choose/choose.component';
+import {SharedModule} from '../shared/shared.module';
 
 
 export const authRoutes: Routes = [
     {
         path: '',
+        component: ChooseComponent
+
+    },
+    {
+        path: 'signin',
         component: SigninComponent
 
     },
@@ -25,11 +32,12 @@ export const authRoutes: Routes = [
 ];
 
 @NgModule({
-    declarations: [SigninComponent, SignupComponent],
+    declarations: [SigninComponent, SignupComponent, ChooseComponent],
     imports: [
         IonicModule,
         ReactiveFormsModule,
         CommonModule,
+        SharedModule,
         RouterModule.forChild(authRoutes),
         EffectsModule.forFeature([AuthEffects]),
         StoreModule.forFeature('auth', reducer),
