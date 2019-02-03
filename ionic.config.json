@@ -1,5 +1,7 @@
 {
   "name": "how-was-your-day",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

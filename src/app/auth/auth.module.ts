@@ -8,8 +8,7 @@ import {reducer} from './reducers/auth.reducer';
 import {RouterModule, Routes} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AngularFireAuthModule} from '@angular/fire/auth';
-import { SignupComponent } from './pages/signup/signup.component';
+import {SignupComponent} from './pages/signup/signup.component';
 
 
 export const authRoutes: Routes = [

@@ -18,6 +18,7 @@ import {CustomSerializer} from './shared/router/custom-router-state-serializer';
 import { AngularFireModule } from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     declarations: [AppComponent],
@@ -31,7 +32,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
         StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        AngularFirestoreModule
+        AngularFirestoreModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
 
     providers: [
