@@ -1,4 +1,3 @@
-import {ActionReducer, Action} from '@ngrx/store';
 import {AuthActions, AuthActionTypes} from '../actions/auth.actions';
 import UserCredential = firebase.auth.UserCredential;
 
@@ -22,8 +21,6 @@ export const initialState: AuthState = {
 
 export function reducer(state = initialState, action: AuthActions): AuthState {
     switch (action.type) {
-        // Case can be more complex
-        // "LOGIN" is not put since it's not used for representing a status (AuthState)
         case AuthActionTypes.LOGIN:
             return {
                 ...state,
