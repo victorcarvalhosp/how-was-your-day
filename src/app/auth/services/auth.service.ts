@@ -17,12 +17,15 @@ export class AuthService {
     constructor(public afAuth: AngularFireAuth, private db: AngularFirestore) {
     }
 
-    login(data: IAuthentication): Observable<UserCredential> {
-        return fromPromise(this.afAuth.auth.signInWithEmailAndPassword(data.identifier, data.password));
+    login(data: IAuthentication): Observable<IUser> {
+        return fromPromise(this.afAuth.auth.signInWithEmailAndPassword(data.identifier, data.password)).pipe(
+            switchMap(auth => {
+                return this.getLoggedInUser();
+            })
+        );
     }
 
     register(data: IAuthentication): Observable<any> {
-        console.log('SERVICE REGISTER')
         return from(this.afAuth.auth.createUserWithEmailAndPassword(data.identifier, data.password)).pipe(take(1),
             switchMap(res => {
                 const user: IUser = {
@@ -33,6 +36,27 @@ export class AuthService {
                 return this.createUser(user);
             }));
 
+    }
+
+    getLoggedInUser(): Observable<IUser> {
+        const token = localStorage.getItem('token');
+        if (token) {
+            return this.db.doc<IUser>(`users/${token}`).valueChanges();
+        } else {
+            return of(null);
+        }
+        // return this.afAuth.authState.pipe(
+        //     switchMap(user => {
+        //         if (user) {
+        //             if (user.uid) {
+        //                 return this.db.doc<IUser>(`users/${user.uid}`).valueChanges();
+        //             }
+        //         } else {
+        //             console.log('return null');
+        //             return of(null);
+        //         }
+        //     })
+        // );
     }
 
     createUser(user: IUser): Observable<void> {

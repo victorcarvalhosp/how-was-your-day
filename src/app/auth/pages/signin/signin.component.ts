@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {State} from '../../../reducers';
+import {AppState} from '../../../reducers';
 import {Observable} from 'rxjs';
 import {Login} from '../../actions/auth.actions';
 import {IAuthentication} from '../../models/authentication';
@@ -23,7 +23,7 @@ export class SigninComponent implements OnInit {
     loading$: Observable<boolean>;
     errorMessage$ = this.store.pipe(select(loginErrorMessage));
 
-    constructor(private store: Store<State>,
+    constructor(private store: Store<AppState>,
                 private fb: FormBuilder) {
     }
 

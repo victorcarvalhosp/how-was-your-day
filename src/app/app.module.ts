@@ -9,16 +9,17 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {StoreModule} from '@ngrx/store';
-import {reducers, metaReducers} from './reducers';
+import {getInitialState, initialReducerMap, metaReducers} from './reducers';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {CustomSerializer} from './shared/router/custom-router-state-serializer';
-import { AngularFireModule } from '@angular/fire';
+import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {AuthEffects} from './auth/effects/auth.effects';
 
 @NgModule({
     declarations: [AppComponent],
@@ -26,9 +27,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     imports: [BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        StoreModule.forRoot(reducers, {metaReducers}),
+        StoreModule.forRoot(initialReducerMap, {initialState: getInitialState, metaReducers}),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
-        EffectsModule.forRoot([]),
+        EffectsModule.forRoot([AuthEffects]),
         StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,

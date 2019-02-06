@@ -10,6 +10,11 @@ export const isLoginLoading = createSelector(
     authState => authState.loading
 );
 
+export const getLoggedUser = createSelector(
+    selectAuthState,
+    authState => authState.userCredentials
+);
+
 export const isLoggedIn = createSelector(
     selectAuthState,
     authState => authState.authenticated

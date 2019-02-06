@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {IAuthentication} from '../models/authentication';
 import UserCredential = firebase.auth.UserCredential;
+import {IUser} from '../models/user';
 
 export enum AuthActionTypes {
     LOGIN = '[Auth] Login',
@@ -9,6 +10,8 @@ export enum AuthActionTypes {
     LOGIN_REQUIRED = '[Auth] Login Required',
     SIGNUP = '[Auth] Signup',
     SIGNUP_FAILED = '[Auth] Signup Failed',
+    GET_LOGGED_USER = '[Auth] Get Logged User',
+    LOGOUT = '[Auth] Logout',
 
 }
 
@@ -27,7 +30,7 @@ export class LoginSuccess implements Action {
 
     // The username will be given as a string
     // In real scenario, it should be a model as well
-    constructor(public payload: UserCredential) {
+    constructor(public payload: IUser) {
     }
 }
 
@@ -58,6 +61,14 @@ export class SignupFailed implements Action {
     }
 }
 
+export class GetLoggedUser implements Action {
+    readonly type = AuthActionTypes.GET_LOGGED_USER;
+}
+
+export class Logout implements Action {
+    readonly type = AuthActionTypes.LOGOUT;
+}
+
 export type AuthActions =
     | Login
     | LoginSuccess
@@ -65,3 +76,5 @@ export type AuthActions =
     | LoginRequired
     | Signup
     | SignupFailed
+    | GetLoggedUser
+    | Logout

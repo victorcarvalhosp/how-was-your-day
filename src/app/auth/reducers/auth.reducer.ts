@@ -1,12 +1,13 @@
 import {AuthActions, AuthActionTypes} from '../actions/auth.actions';
 import UserCredential = firebase.auth.UserCredential;
+import {IUser} from '../models/user';
 
 
 // Here is the final state required by the app
 export interface AuthState {
     authenticated: boolean;
     // Name is what we passed in "Actions" as payload, thus it can be a model if needed
-    userCredentials: UserCredential;
+    userCredentials: IUser;
     errorMessage: string;
     loading: boolean;
 }
@@ -19,7 +20,7 @@ export const initialState: AuthState = {
     loading: false
 };
 
-export function reducer(state = initialState, action: AuthActions): AuthState {
+export function authReducer(state = initialState, action: AuthActions): AuthState {
     switch (action.type) {
         case AuthActionTypes.LOGIN:
             return {
@@ -58,6 +59,14 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
                 authenticated: false,
                 userCredentials: null,
                 errorMessage: action.payload,
+            };
+        case AuthActionTypes.LOGOUT:
+            return {
+                ...state,
+                authenticated: false,
+                loading: false,
+                userCredentials: null,
+                errorMessage: '',
             };
         default:
             return state;

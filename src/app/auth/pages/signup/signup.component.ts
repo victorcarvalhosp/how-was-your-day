@@ -4,7 +4,7 @@ import {Validations} from '../../../shared/validators/validations';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {isLoginLoading, loginErrorMessage} from '../../selectors/auth.selectors';
-import {State} from '../../../reducers';
+import {AppState} from '../../../reducers';
 import {IAuthentication} from '../../models/authentication';
 import {Login, Signup} from '../../actions/auth.actions';
 
@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   loading$: Observable<boolean>;
   errorMessage$ = this.store.pipe(select(loginErrorMessage));
 
-  constructor(private store: Store<State>,
+  constructor(private store: Store<AppState>,
               private fb: FormBuilder) {
   }
 
