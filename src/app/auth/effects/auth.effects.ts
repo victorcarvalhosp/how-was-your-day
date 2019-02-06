@@ -1,13 +1,23 @@
 import {Injectable} from '@angular/core';
 import {Effect, Actions, ofType} from '@ngrx/effects';
-import {tap, map, exhaustMap, catchError} from 'rxjs/operators';
+import {tap, map, exhaustMap, catchError, switchMap} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {of} from 'rxjs';
-import {AuthActionTypes, GetLoggedUser, Login, LoginFailed, LoginSuccess, Signup, SignupFailed} from '../actions/auth.actions';
+import {Observable, of} from 'rxjs';
+import {
+    AuthActionTypes,
+    GetLoggedUser,
+    Login,
+    LoginFailed,
+    LoginRequired,
+    LoginSuccess,
+    Signup,
+    SignupFailed
+} from '../actions/auth.actions';
 import {IAuthentication} from '../models/authentication';
 import {AuthService} from '../services/auth.service';
 import {IUser} from '../models/user';
 import {ROUTE_AUTH, ROUTE_TAB1} from '../../shared/router/routes.constants';
+import {Action} from '@ngrx/store';
 
 
 @Injectable()
@@ -16,24 +26,22 @@ export class AuthEffects {
     @Effect()
         // Once it detects such signal (it's a string as we defined in "Action")
         // It will call
-    login$ = this.actions$.pipe(
+    login$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.LOGIN),
         map((action: Login) => action.payload),
-        // Use `exhaustMap` to wait for Observable respond
-        exhaustMap((auth: IAuthentication) =>
-            this.authService
-                .login(auth)
+        switchMap(payload => {
+            return this.authService
+                .login(payload)
                 .pipe(
                     map(userCredential => {
-                        localStorage.setItem('token', userCredential.uid);
                         return new LoginSuccess(userCredential);
                     }),
                     catchError(error => {
                         console.log(error);
                         return of(new LoginFailed(error.message));
                     })
-                )
-        )
+                );
+        })
     );
 
 
@@ -45,13 +53,15 @@ export class AuthEffects {
                 .getLoggedInUser()
                 .pipe(
                     map(userCredential => {
-                        console.log('SIDE EFFECT');
-                        localStorage.setItem('token', userCredential.uid);
-                        return new LoginSuccess(userCredential);
+                        if (userCredential) {
+                            return new LoginSuccess(userCredential);
+                        } else {
+                            return new LoginRequired();
+                        }
                     }),
                     catchError(error => {
                         console.log(error);
-                        return of(new LoginFailed(error.message));
+                        return of(new LoginRequired());
                     })
                 )
         )
@@ -81,7 +91,11 @@ export class AuthEffects {
         // If the user is logged in, let it goes to "Team App"
     loginSuccess$ = this.actions$.pipe(
         ofType(AuthActionTypes.LOGIN_SUCESS),
-        tap(() => this.router.navigate([ROUTE_TAB1]))
+        map((action: LoginSuccess) => action.payload),
+        tap((userCredential) => {
+            localStorage.setItem('token', userCredential.uid);
+            this.router.navigate([ROUTE_TAB1]);
+        })
     );
 
     @Effect({dispatch: false})
@@ -92,6 +106,24 @@ export class AuthEffects {
         tap(() => {
             this.router.navigate([ROUTE_AUTH]);
         })
+    );
+
+    @Effect()
+    logout$ = this.actions$.pipe(
+        ofType(AuthActionTypes.LOGOUT),
+        exhaustMap(() =>
+            this.authService
+                .logout()
+                .pipe(
+                    map(() => {
+                        return new LoginRequired();
+                    }),
+                    catchError(error => {
+                        console.log(error);
+                        return of(new LoginFailed(error.message));
+                    })
+                )
+        )
     );
 
     constructor(private router: Router,

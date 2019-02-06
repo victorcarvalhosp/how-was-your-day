@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
                     this.store.dispatch(new GetLoggedUser());
                 }
             }), filter(data => {
-                return data !== undefined;
+                return data !== undefined && data.userCredentials !== null;
             }),
             take(1));
     }

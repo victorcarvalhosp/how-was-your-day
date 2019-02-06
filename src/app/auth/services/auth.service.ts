@@ -4,7 +4,7 @@ import {IAuthentication} from '../models/authentication';
 import {AngularFireAuth} from '@angular/fire/auth';
 import UserCredential = firebase.auth.UserCredential;
 import {fromPromise} from 'rxjs/internal-compatibility';
-import {map, switchMap, take} from 'rxjs/operators';
+import {map, switchMap, take, tap} from 'rxjs/operators';
 import {IUser} from '../models/user';
 import {AngularFirestore} from '@angular/fire/firestore';
 
@@ -19,6 +19,7 @@ export class AuthService {
 
     login(data: IAuthentication): Observable<IUser> {
         return fromPromise(this.afAuth.auth.signInWithEmailAndPassword(data.identifier, data.password)).pipe(
+            tap(user => localStorage.setItem('token', user.user.uid)),
             switchMap(auth => {
                 return this.getLoggedInUser();
             })
@@ -57,6 +58,13 @@ export class AuthService {
         //         }
         //     })
         // );
+    }
+
+    logout(): Observable<any> {
+        return fromPromise(this.afAuth.auth.signOut()).pipe(
+            tap(() => {
+                localStorage.removeItem('token');
+            }));
     }
 
     createUser(user: IUser): Observable<void> {
