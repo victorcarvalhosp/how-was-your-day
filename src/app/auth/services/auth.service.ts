@@ -49,8 +49,8 @@ export class AuthService {
         // return this.afAuth.authState.pipe(
         //     switchMap(user => {
         //         if (user) {
-        //             if (user.uid) {
-        //                 return this.db.doc<IUser>(`users/${user.uid}`).valueChanges();
+        //             if (user.id) {
+        //                 return this.db.doc<IUser>(`users/${user.id}`).valueChanges();
         //             }
         //         } else {
         //             console.log('return null');

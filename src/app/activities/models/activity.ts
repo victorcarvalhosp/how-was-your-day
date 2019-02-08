@@ -1,5 +1,5 @@
 export class IActivity {
-  uid: string;
+  id: string;
   name: string;
   icon: string;
 }

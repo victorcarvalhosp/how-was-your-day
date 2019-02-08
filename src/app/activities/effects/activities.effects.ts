@@ -1,24 +1,83 @@
 import {Injectable} from '@angular/core';
-import {Actions} from '@ngrx/effects';
-import {Store} from '@ngrx/store';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Action, select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
+import {ActivitiesActionTypes, ActivitiesLoaded, ActivitiesRequested, ActivitiesStopLoading} from '../actions/activities.actions';
+import {activitiesLoaded, selectAllActivities} from '../selectors/activities.selectors';
+import {filter, finalize, map, mergeMap, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import {ActivitiesService} from '../services/activities.service';
+import {EMPTY, from, Observable, of} from 'rxjs';
 
 
 @Injectable()
 export class ActivitiesEffects {
 
 
+    constructor(private actions$: Actions, private store: Store<AppState>, private activitiesService: ActivitiesService) {
+    }
 
-  constructor(private actions$: Actions, private store: Store<AppState>) {}
+    // @Effect()
+    // loadAllActivities$ = this.actions$
+    //     .pipe(
+    //         ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
+    //         withLatestFrom(this.store.pipe(select(activitiesLoaded))),
+    //         filter(([action, loaded]) => {
+    //             console.log(loaded + ' ACTIVITIES LOADED?');
+    //             return !loaded;
+    //         }),
+    //         mergeMap(() => this.activitiesService.findAll()),
+    //         map(activities => new ActivitiesLoaded({activities})),
+    //     );
 
-  // @Effect()
-  // loadAllCourses$ = this.actions$
-  //     .pipe(
-  //         ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
-  //         withLatestFrom(this.store.pipe(select(activitiesLoaded))),
-  //         filter(([action, activitiesLoaded]) => !activitiesLoaded),
-  //         mergeMap(() => this.coursesService.findAllCourses()),
-  //         map(activities => new ActivitiesLoaded({activities}))
-  //     );
+
+    @Effect()
+    loadAllActivities$: Observable<any> = this.actions$
+        .pipe(
+            ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
+            withLatestFrom(this.store.pipe(select(activitiesLoaded))),
+            map(([action, loaded]) => [action,  loaded]),
+            switchMap(([action, loaded]) => {
+                let obs;
+                if (loaded) {
+                    obs = of(new ActivitiesStopLoading());
+                } else {
+                    obs = this.activitiesService.findAll().pipe(
+                        map(activities => {
+                            return new ActivitiesLoaded({activities});
+                        })
+                    );
+                }
+                return obs;
+            })
+        );
+
+
+    // @Effect()
+    // loadAllActivities$: Observable<Action> = this.actions$.pipe(
+    //     ofType(ActivitiesActionTypes.ActivitiesRequested),
+    //     withLatestFrom(this.store.pipe(select(activitiesLoaded))),
+    //     switchMap(([, loaded]) => {
+    //         if (loaded) {
+    //             return new ActivitiesStopLoading();
+    //         }
+    //         return this.activitiesService.findAll().pipe(
+    //             map((activities) => {
+    //                 return new ActivitiesLoaded({activities});
+    //
+    //             })
+    //         );
+    //     })
+    // );
+
+
+    // @Effect()
+    // loadAllActivities$ = this.actions$
+    //     .pipe(
+    //         ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
+    //         withLatestFrom(this.store.pipe(select(selectAllActivities))),
+    //         filter(([action,  activities]) => !!activities),
+    //         mergeMap(() => this.activitiesService.findAll()),
+    //         map(activities => new ActivitiesLoaded({activities}))
+    //     );
 
 }

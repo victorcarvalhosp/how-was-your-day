@@ -20,7 +20,10 @@ export const activitiesLoaded = createSelector(
     selectActivitiesState,
     coursesState => coursesState.activitiesLoaded
 );
-// export const isLoginLoading = createSelector(
-//     selectActivitiesState,
-//     authState => authState.loading
-// );
+
+export const isActivitiesLoading = createSelector(
+    selectActivitiesState,
+    state => state.loading
+);
+
+

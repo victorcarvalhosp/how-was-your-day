@@ -5,22 +5,27 @@ import {ActivitiesActions, ActivitiesActionTypes} from '../actions/activities.ac
 
 
 export interface ActivitiesState extends EntityState<IActivity> {
+    loading: boolean;
     activitiesLoaded: boolean;
 }
 
-export const adapter: EntityAdapter<IActivity> =
+export const activitiesAdapter: EntityAdapter<IActivity> =
     createEntityAdapter<IActivity>();
 
-export const initialActivitiesState: ActivitiesState = adapter.getInitialState({
+export const initialActivitiesState: ActivitiesState = activitiesAdapter.getInitialState({
+    loading: false,
     activitiesLoaded: false
 });
 
 export function activitiesReducer(state = initialActivitiesState, action: ActivitiesActions): ActivitiesState {
     switch (action.type) {
+        case ActivitiesActionTypes.ActivitiesRequested:
+            return {...state, loading: true};
         case ActivitiesActionTypes.ActivitiesLoaded:
-            return adapter.addAll(action.payload.activities, {...state, activitiesLoaded: true});
-
-        default:
+            return activitiesAdapter.addAll(action.payload.activities, {...state, activitiesLoaded: true, loading: false});
+        case ActivitiesActionTypes.ActivitiesStopLoading:
+            return {...state, loading: false};
+            default:
             return state;
     }
 }
@@ -31,4 +36,4 @@ export const {
     selectIds,
     selectTotal
 
-} = adapter.getSelectors();
+} = activitiesAdapter.getSelectors();

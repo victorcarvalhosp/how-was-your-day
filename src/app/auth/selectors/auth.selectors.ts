@@ -15,6 +15,11 @@ export const getLoggedUser = createSelector(
     authState => authState.userCredentials
 );
 
+export const getLoggedUserUid = createSelector(
+    getLoggedUser,
+    user => user.uid
+);
+
 export const isLoggedIn = createSelector(
     selectAuthState,
     authState => authState.authenticated
