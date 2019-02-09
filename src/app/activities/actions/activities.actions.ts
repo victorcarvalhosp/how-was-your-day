@@ -7,7 +7,10 @@ export enum ActivitiesActionTypes {
     ACTIVITIES_LOADED = '[Firebase API] Activities Loaded',
     ACTIVITIES__STOP_LOADING = '[Activities] Activities Stop Loading',
     ACTIVITY_OPEN_MODAL = '[Activities] Open Modal',
-    ACTIVITY_CLOSE_MODAL = '[Activities] Close Modal'
+    ACTIVITY_CLOSE_MODAL = '[Activities] Close Modal',
+    ACTIVITY_SAVE_REQUESTED = '[Activities] Save Request',
+    ACTIVITY_SAVE_SUCESS = '[Activities] Save Sucess',
+    ACTIVITY_SAVE_FAILED = '[Activities] Save Failed'
 }
 
 export class ActivitiesRequested implements Action {

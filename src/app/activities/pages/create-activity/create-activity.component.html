@@ -7,6 +7,12 @@
                 </ion-button>
             </ion-buttons>
             <ion-title>{{activity.id ? 'Edit' : 'Create'}} Activity</ion-title>
+            <ion-buttons slot="end">
+                <!--<ion-spinner ></ion-spinner>-->
+                <ion-button (click)="trySave()" [disabled]="!form.valid">
+                    <ion-icon name="send"></ion-icon>
+                </ion-button>
+            </ion-buttons>
         </ion-toolbar>
     </ion-header>
     <ion-content padding>
@@ -18,6 +24,16 @@
             <div class="error-hint">
                 {{ getError('name') }}
             </div>
+
+            <label>
+                <input type="radio" value="arrow-forward" formControlName="icon">
+                <img src="http://placehold.it/40x60/0bf/fff&text=A">
+            </label>
+            <label>
+                <input type="radio" value="arrow" formControlName="icon">
+                <img src="http://placehold.it/40x60/b0f/fff&text=B">
+            </label>
+
         </form>
     </ion-content>
 </ng-container>

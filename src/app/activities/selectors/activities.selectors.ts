@@ -28,7 +28,7 @@ export const activitiesLoaded = createSelector(
 
 export const isActivitiesLoading = createSelector(
     selectActivitiesState,
-    state => state.loading
+    state => state.loadingList
 );
 
 

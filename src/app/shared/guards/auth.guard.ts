@@ -6,7 +6,7 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {getLoggedUser, selectAuthState} from '../../auth/selectors/auth.selectors';
 import {GetLoggedUser} from '../../auth/actions/auth.actions';
-import {ROUTE_AUTH} from '../router/routes.constants';
+import {ROUTE_AUTH, ROUTE_TAB1} from '../router/routes.constants';
 import {AuthState} from '../../auth/reducers/auth.reducer';
 
 @Injectable({

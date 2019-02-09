@@ -17,7 +17,7 @@ describe('Auth Reducer', () => {
 
 
   describe('LOGIN action', () => {
-    it('should set loading to true and hide error messages', () => {
+    it('should set loadingList to true and hide error messages', () => {
       const action = new Login({identifier: 'test'});
       const state = authReducer.authReducer(initialState, action);
 
