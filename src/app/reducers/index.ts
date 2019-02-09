@@ -3,6 +3,8 @@ import {environment} from '../../environments/environment';
 import {routerReducer} from '@ngrx/router-store';
 import * as authReducers from '../auth/reducers/auth.reducer';
 import {AuthState} from '../auth/reducers/auth.reducer';
+import { storeFreeze } from 'ngrx-store-freeze';
+
 
 
 export interface AppState {
@@ -33,4 +35,4 @@ export function getInitialState() {
 //   router: routerReducer
 // };
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];

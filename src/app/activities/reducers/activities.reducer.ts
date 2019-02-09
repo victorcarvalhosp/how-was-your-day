@@ -30,6 +30,7 @@ export function activitiesReducer(state = initialActivitiesState, action: Activi
         case ActivitiesActionTypes.ACTIVITY_OPEN_MODAL:
             return {...state, activity: action.payload.activity};
         case ActivitiesActionTypes.ACTIVITY_CLOSE_MODAL:
+            state.activity = null;
             return {...state, activity: null};
         default:
             return state;
