@@ -9,7 +9,7 @@
 <ion-content>
   <ion-list>
     <ion-spinner *ngIf="loading$ | async"></ion-spinner>
-    <ion-item *ngFor="let a of list$ | async">
+    <ion-item *ngFor="let a of list$ | async" (click)="editActivity(a)">
       {{a.name}}
     </ion-item>
   </ion-list>

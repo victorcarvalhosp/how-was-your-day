@@ -27,6 +27,15 @@ export class SigninComponent implements OnInit {
                 private fb: FormBuilder) {
     }
 
+    ngOnInit() {
+        this.loading$ = this.store.pipe(select(isLoginLoading));
+        this.form = this.fb.group({
+            identifier: ['', Validators.compose([Validators.required, Validators.email])],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+        });
+        this.createValidationMessages();
+    }
+
     private createValidationMessages() {
         this.validations = new Validations(
             {
@@ -40,15 +49,6 @@ export class SigninComponent implements OnInit {
                 }
             }
         );
-    }
-
-    ngOnInit() {
-        this.loading$ = this.store.pipe(select(isLoginLoading));
-        this.form = this.fb.group({
-            identifier: ['', Validators.compose([Validators.required, Validators.email])],
-            password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
-        });
-        this.createValidationMessages();
     }
 
     onSubmit() {

@@ -16,9 +16,14 @@ export const selectAllActivities = createSelector(
     fromActivity.selectAll
 );
 
+export const selectActivity = createSelector(
+    selectActivitiesState,
+    activitiesState => activitiesState.activity
+);
+
 export const activitiesLoaded = createSelector(
     selectActivitiesState,
-    coursesState => coursesState.activitiesLoaded
+    activitiesState => activitiesState.activitiesLoaded
 );
 
 export const isActivitiesLoading = createSelector(

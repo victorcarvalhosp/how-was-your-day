@@ -6,7 +6,9 @@ import {isLoginLoading} from '../../auth/selectors/auth.selectors';
 import {isActivitiesLoading, selectAllActivities} from '../selectors/activities.selectors';
 import {IActivity} from '../models/activity';
 import * as fromActivity from '../reducers/activities.reducer';
-import {ActivitiesRequested} from '../actions/activities.actions';
+import {ActivitiesRequested, ActivityOpenModal} from '../actions/activities.actions';
+import {ModalController} from '@ionic/angular';
+import {CreateActivityComponent} from './create-activity/create-activity.component';
 
 @Component({
     selector: 'app-activities',
@@ -23,10 +25,15 @@ export class ActivitiesComponent implements OnInit {
     constructor(private store: Store<AppState>) {
     }
 
+    editActivity(activity: IActivity) {
+        this.store.dispatch(new ActivityOpenModal({activity: activity}));
+    }
+
     ngOnInit() {
         this.store.dispatch(new ActivitiesRequested());
         this.loading$ = this.store.pipe(select(isActivitiesLoading));
         this.list$ = this.store.pipe(select(selectAllActivities));
     }
+
 
 }

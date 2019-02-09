@@ -9,16 +9,21 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {ActivitiesEffects} from './effects/activities.effects';
 import {activitiesReducer} from './reducers/activities.reducer';
+import { CreateActivityComponent } from './pages/create-activity/create-activity.component';
 
 export const activitiesRoutes: Routes = [
   {
     path: '',
     component: ActivitiesComponent
 
+  },
+  {
+    path: 'create',
+    component: CreateActivityComponent
   }
 ];
 @NgModule({
-  declarations: [ActivitiesComponent],
+  declarations: [ActivitiesComponent, CreateActivityComponent],
   imports: [
     CommonModule,
     IonicModule,

@@ -1,0 +1,23 @@
+<ng-container *ngIf="activity$ | async as activity">
+    <ion-header no-border>
+        <ion-toolbar class="transparent-toolbar">
+            <ion-buttons slot="start">
+                <ion-button (click)="closeModal()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title>{{activity.id ? 'Edit' : 'Create'}} Activity</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content padding>
+        <form [formGroup]="form" [appConnectForm]="activity">
+            <ion-item inset>
+                <ion-label position="floating">Name</ion-label>
+                <ion-input id="identifier" type="text" formControlName="name"></ion-input>
+            </ion-item>
+            <div class="error-hint">
+                {{ getError('name') }}
+            </div>
+        </form>
+    </ion-content>
+</ng-container>

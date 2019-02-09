@@ -2,41 +2,54 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
-import {ActivitiesActionTypes, ActivitiesLoaded, ActivitiesRequested, ActivitiesStopLoading} from '../actions/activities.actions';
+import {
+    ActivitiesActionTypes,
+    ActivitiesLoaded,
+    ActivitiesRequested,
+    ActivitiesStopLoading, ActivityCloseModal,
+    ActivityOpenModal
+} from '../actions/activities.actions';
 import {activitiesLoaded, selectAllActivities} from '../selectors/activities.selectors';
 import {filter, finalize, map, mergeMap, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
 import {ActivitiesService} from '../services/activities.service';
-import {EMPTY, from, Observable, of} from 'rxjs';
+import {EMPTY, from, Observable, of, pipe} from 'rxjs';
+import {CreateActivityComponent} from '../pages/create-activity/create-activity.component';
+import {ModalController} from '@ionic/angular';
+import {Router} from '@angular/router';
+import {ROUTE_ACTIVITIES_CREATE} from '../../shared/router/routes.constants';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 
 @Injectable()
 export class ActivitiesEffects {
 
 
-    constructor(private actions$: Actions, private store: Store<AppState>, private activitiesService: ActivitiesService) {
+    constructor(private actions$: Actions, private store: Store<AppState>, private activitiesService: ActivitiesService,
+                private modalController: ModalController, private router: Router) {
     }
 
     // @Effect()
     // loadAllActivities$ = this.actions$
     //     .pipe(
-    //         ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
+    //         ofType<ACTIVITIES_REQUESTED>(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
     //         withLatestFrom(this.store.pipe(select(activitiesLoaded))),
     //         filter(([action, loaded]) => {
     //             console.log(loaded + ' ACTIVITIES LOADED?');
     //             return !loaded;
     //         }),
     //         mergeMap(() => this.activitiesService.findAll()),
-    //         map(activities => new ActivitiesLoaded({activities})),
+    //         map(activities => new ACTIVITIES_LOADED({activities})),
     //     );
 
 
     @Effect()
-    loadAllActivities$: Observable<any> = this.actions$
+    loadAllActivities$: Observable<Action> = this.actions$
         .pipe(
-            ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
+            ofType<ActivitiesRequested>(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
             withLatestFrom(this.store.pipe(select(activitiesLoaded))),
-            map(([action, loaded]) => [action,  loaded]),
+            map(([action, loaded]) => [action, loaded]),
             switchMap(([action, loaded]) => {
+                console.log('CHAMOU loadAllActivities$ EFFECT');
                 let obs;
                 if (loaded) {
                     obs = of(new ActivitiesStopLoading());
@@ -52,17 +65,40 @@ export class ActivitiesEffects {
         );
 
 
+    @Effect({dispatch: false})
+    openActivityModal$ = this.actions$
+        .pipe(
+            ofType<ActivityOpenModal>(ActivitiesActionTypes.ACTIVITY_OPEN_MODAL),
+            map((action) => {
+                this.modalController.create({
+                    component: CreateActivityComponent,
+                }).then(modal => modal.present());
+                // this.router.navigate([ROUTE_ACTIVITIES_CREATE]);
+            })
+        );
+
+    @Effect({dispatch: false})
+    closeActivityModal$ = this.actions$
+        .pipe(
+            ofType<ActivityCloseModal>(ActivitiesActionTypes.ACTIVITY_CLOSE_MODAL),
+            tap(action => {
+                console.log('CHAMOU CLOSE MODAL EFFECT');
+                this.modalController.dismiss();
+            })
+        );
+
+
     // @Effect()
     // loadAllActivities$: Observable<Action> = this.actions$.pipe(
-    //     ofType(ActivitiesActionTypes.ActivitiesRequested),
+    //     ofType(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
     //     withLatestFrom(this.store.pipe(select(activitiesLoaded))),
     //     switchMap(([, loaded]) => {
     //         if (loaded) {
-    //             return new ActivitiesStopLoading();
+    //             return new ACTIVITIES__STOP_LOADING();
     //         }
     //         return this.activitiesService.findAll().pipe(
     //             map((activities) => {
-    //                 return new ActivitiesLoaded({activities});
+    //                 return new ACTIVITIES_LOADED({activities});
     //
     //             })
     //         );
@@ -73,11 +109,11 @@ export class ActivitiesEffects {
     // @Effect()
     // loadAllActivities$ = this.actions$
     //     .pipe(
-    //         ofType<ActivitiesRequested>(ActivitiesActionTypes.ActivitiesRequested),
+    //         ofType<ACTIVITIES_REQUESTED>(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
     //         withLatestFrom(this.store.pipe(select(selectAllActivities))),
     //         filter(([action,  activities]) => !!activities),
     //         mergeMap(() => this.activitiesService.findAll()),
-    //         map(activities => new ActivitiesLoaded({activities}))
+    //         map(activities => new ACTIVITIES_LOADED({activities}))
     //     );
 
 }
