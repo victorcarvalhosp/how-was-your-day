@@ -7,6 +7,11 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+
     <app-responsive-area>
         <ion-list>
             <ion-spinner *ngIf="loading$ | async"></ion-spinner>
@@ -15,7 +20,6 @@
             </ion-item>
         </ion-list>
     </app-responsive-area>
-
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="presentModal()">
             <ion-icon name="add"></ion-icon>

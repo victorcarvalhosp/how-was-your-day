@@ -7,6 +7,7 @@ import {ActivitiesActions, ActivitiesActionTypes} from '../actions/activities.ac
 export interface ActivitiesState extends EntityState<IActivity> {
     loadingList: boolean;
     activitiesLoaded: boolean;
+    listErrorMessage: string;
     activity: IActivity;
     loadingSave: boolean;
     saveErrorMessage: string;
@@ -32,16 +33,19 @@ export const initialActivitiesState: ActivitiesState = activitiesAdapter.getInit
     activitiesLoaded: false,
     activity: null,
     loadingSave: false,
-    saveErrorMessage: ''
+    saveErrorMessage: '',
+    listErrorMessage: '',
 });
 
 export function activitiesReducer(state = initialActivitiesState, action: ActivitiesActions): ActivitiesState {
     switch (action.type) {
-        case ActivitiesActionTypes.ACTIVITIES_REQUESTED:
-            return {...state, loadingList: true};
+        case ActivitiesActionTypes.ACTIVITIES_REQUESTED_WITH_CACHE || ActivitiesActionTypes.ACTIVITIES_REQUESTED_FROM_API:
+            return {...state, loadingList: true, listErrorMessage: ''};
         case ActivitiesActionTypes.ACTIVITIES_LOADED:
             return activitiesAdapter.addAll(action.payload.activities, {...state, activitiesLoaded: true, loadingList: false});
-        case ActivitiesActionTypes.ACTIVITIES__STOP_LOADING:
+        case ActivitiesActionTypes.ACTIVITIES_REQUEST_FAILED:
+            return {...state, loadingList: false, listErrorMessage: action.payload.saveErrorMessage};
+        case ActivitiesActionTypes.ACTIVITIES_STOP_LOADING:
             return {...state, loadingList: false};
         case ActivitiesActionTypes.ACTIVITY_OPEN_MODAL:
             return {...state, activity: action.payload.activity};

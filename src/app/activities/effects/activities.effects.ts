@@ -4,8 +4,8 @@ import {Action, select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {
     ActivitiesActionTypes,
-    ActivitiesLoaded,
-    ActivitiesRequested,
+    ActivitiesLoaded, ActivitiesRequestedFromApi,
+    ActivitiesRequestedWithCache, ActivitiesRequestFailed,
     ActivitiesStopLoading, ActivityCloseModal,
     ActivityOpenModal, ActivitySaveFailed, ActivitySaveRequested, ActivitySaveSucess
 } from '../actions/activities.actions';
@@ -32,7 +32,7 @@ export class ActivitiesEffects {
     // @Effect()
     // loadAllActivities$ = this.actions$
     //     .pipe(
-    //         ofType<ACTIVITIES_REQUESTED>(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
+    //         ofType<ACTIVITIES_REQUESTED_WITH_CACHE>(ActivitiesActionTypes.ACTIVITIES_REQUESTED_WITH_CACHE),
     //         withLatestFrom(this.store.pipe(select(activitiesLoaded))),
     //         filter(([action, loaded]) => {
     //             console.log(loaded + ' ACTIVITIES LOADED?');
@@ -46,22 +46,34 @@ export class ActivitiesEffects {
     @Effect()
     loadAllActivities$: Observable<Action> = this.actions$
         .pipe(
-            ofType<ActivitiesRequested>(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
+            ofType<ActivitiesRequestedWithCache>(ActivitiesActionTypes.ACTIVITIES_REQUESTED_WITH_CACHE),
             withLatestFrom(this.store.pipe(select(activitiesLoaded))),
             map(([action, loaded]) => [action, loaded]),
             switchMap(([action, loaded]) => {
-                console.log('CHAMOU loadAllActivities$ EFFECT');
                 let obs;
                 if (loaded) {
                     obs = of(new ActivitiesStopLoading());
                 } else {
-                    obs = this.activitiesService.findAll().pipe(
-                        map(activities => {
-                            return new ActivitiesLoaded({activities});
-                        })
-                    );
+                    obs = of(new ActivitiesRequestedFromApi());
                 }
                 return obs;
+            })
+        );
+
+
+    @Effect()
+    loadAllActivitiesFromApi$: Observable<Action> = this.actions$
+        .pipe(
+            ofType<ActivitiesRequestedFromApi>(ActivitiesActionTypes.ACTIVITIES_REQUESTED_FROM_API),
+            switchMap((action) => {
+                return this.activitiesService.findAll().pipe(
+                    map(activities => {
+                        return new ActivitiesLoaded({activities});
+                    }),
+                    catchError(err => {
+                        return of(new ActivitiesRequestFailed(err.message));
+                    })
+                );
             })
         );
 
@@ -118,11 +130,11 @@ export class ActivitiesEffects {
 
     // @Effect()
     // loadAllActivities$: Observable<Action> = this.actions$.pipe(
-    //     ofType(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
+    //     ofType(ActivitiesActionTypes.ACTIVITIES_REQUESTED_WITH_CACHE),
     //     withLatestFrom(this.store.pipe(select(activitiesLoaded))),
     //     switchMap(([, loaded]) => {
     //         if (loaded) {
-    //             return new ACTIVITIES__STOP_LOADING();
+    //             return new ACTIVITIES_STOP_LOADING();
     //         }
     //         return this.activitiesService.findAll().pipe(
     //             map((activities) => {
@@ -137,7 +149,7 @@ export class ActivitiesEffects {
     // @Effect()
     // loadAllActivities$ = this.actions$
     //     .pipe(
-    //         ofType<ACTIVITIES_REQUESTED>(ActivitiesActionTypes.ACTIVITIES_REQUESTED),
+    //         ofType<ACTIVITIES_REQUESTED_WITH_CACHE>(ActivitiesActionTypes.ACTIVITIES_REQUESTED_WITH_CACHE),
     //         withLatestFrom(this.store.pipe(select(selectAllActivities))),
     //         filter(([action,  activities]) => !!activities),
     //         mergeMap(() => this.activitiesService.findAll()),

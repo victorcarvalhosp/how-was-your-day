@@ -27,7 +27,7 @@ export class ActivitiesService {
     }
 
     findAll(): Observable<IActivity[]> {
-      return  this.db.collection<IActivity>(this.getPath()).valueChanges();
+      return  this.db.collection<IActivity>(this.getPath()).valueChanges().pipe(take(1));
     }
 
     getPath(): string {
