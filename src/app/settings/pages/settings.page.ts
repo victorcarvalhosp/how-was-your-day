@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {ROUTE_ACTIVITIES, ROUTE_AUTH} from '../../shared/router/routes.constants';
+import {ROUTE_ACTIVITIES, ROUTE_AUTH, ROUTE_MOODS} from '../../shared/router/routes.constants';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {Logout} from '../../auth/actions/auth.actions';
@@ -17,13 +17,16 @@ export class SettingsPage {
     }
 
     logout() {
-        //TODO
         this.store.dispatch(new Logout());
         this.router.navigate([ROUTE_AUTH]);
     }
 
     goToActivities() {
         this.router.navigate([ROUTE_ACTIVITIES]);
-
     }
+
+    goToMoods() {
+        this.router.navigate([ROUTE_MOODS]);
+    }
+
 }

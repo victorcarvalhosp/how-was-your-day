@@ -1,0 +1,40 @@
+<ng-container *ngIf="mood$ | async as mood">
+    <ion-header no-border>
+        <ion-toolbar class="transparent-toolbar">
+            <ion-buttons slot="start">
+                <ion-button (click)="closeModal()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title>{{mood.id ? 'Edit' : 'Create'}} Mood</ion-title>
+            <ion-buttons slot="end">
+                <ion-spinner *ngIf="loadingSave$ | async"></ion-spinner>
+                <ion-button (click)="save()" *ngIf="!(loadingSave$ | async)" [disabled]="!form.valid">
+                    <ion-icon name="send"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content padding>
+        <form [formGroup]="form" [appConnectForm]="mood">
+            <ion-item inset>
+                <ion-label position="floating">Name</ion-label>
+                <ion-input id="identifier" type="text" formControlName="name"></ion-input>
+            </ion-item>
+            <div class="error-hint">
+                {{ getError('name') }}
+            </div>
+            <ion-grid>
+                <ion-row justify-content-center>
+                    <ion-col *ngFor="let i of icons" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
+                        <label  >
+                            <input [id]="i" type="radio" [value]="i" formControlName="icon">
+                            <img src="/assets/icons_moods/{{i | moodIcon}}" style="width: 24px; height: 24px"/>
+                        </label>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+        </form>
+    </ion-content>
+</ng-container>

@@ -4,6 +4,7 @@ import {AuthGuard} from './shared/guards/auth.guard';
 
 const routes: Routes = [
   { path: 'activities', loadChildren: './activities/activities.module#ActivitiesModule', canActivate: [AuthGuard] },
+  { path: 'moods', loadChildren: './moods/moods.module#MoodsModule', canActivate: [AuthGuard] },
   { path: 'home', loadChildren: './tabs/tabs.module#TabsPageModule', canActivate: [AuthGuard] },
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {path: '', loadChildren: './splash/splash.module#SplashModule'}

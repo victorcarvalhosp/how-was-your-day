@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="/home/tabs/settings"></ion-back-button>
         </ion-buttons>
-        <ion-title>Activities</ion-title>
+        <ion-title>Moods</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -14,11 +14,14 @@
 
     <app-responsive-area>
         <ion-list>
-            <ion-spinner *ngIf="loading$ | async"></ion-spinner>
-            <ion-item *ngFor="let a of list$ | async" (click)="editActivity(a)">
-                <img slot="start" src="/assets/icons_activities/{{a.icon | activityIcon}}" style="width: 24px; height: 24px"/>
-                {{a.name}}
-            </ion-item>
+            <ion-reorder-group disabled="false" (ionItemReorder)="moveMood($event)">
+                <ion-spinner *ngIf="loading$ | async"></ion-spinner>
+                <ion-item *ngFor="let m of list$ | async" >
+                    <img slot="start" src="/assets/icons_moods/{{m.icon | moodIcon}}" style="width: 24px; height: 24px"/>
+                    <ion-label>{{m.name}}</ion-label>
+                    <ion-reorder slot="end"></ion-reorder>
+                </ion-item>
+            </ion-reorder-group>
         </ion-list>
     </app-responsive-area>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">

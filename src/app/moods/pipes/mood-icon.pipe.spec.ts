@@ -1,8 +1,8 @@
-import { ActivityIconPipe } from './activity-icon.pipe';
+import { MoodIconPipe } from './mood-icon.pipe';
 
 describe('MoodIconPipe', () => {
   it('create an instance', () => {
-    const pipe = new ActivityIconPipe();
+    const pipe = new MoodIconPipe();
     expect(pipe).toBeTruthy();
   });
 });
