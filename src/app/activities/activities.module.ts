@@ -10,6 +10,7 @@ import {StoreModule} from '@ngrx/store';
 import {ActivitiesEffects} from './effects/activities.effects';
 import {activitiesReducer} from './reducers/activities.reducer';
 import {CreateActivityComponent} from './pages/create-activity/create-activity.component';
+import { ActivityIconPipe } from './pipes/activity-icon.pipe';
 
 export const activitiesRoutes: Routes = [
   {
@@ -23,7 +24,7 @@ export const activitiesRoutes: Routes = [
   }
 ];
 @NgModule({
-  declarations: [ActivitiesComponent, CreateActivityComponent],
+  declarations: [ActivitiesComponent, CreateActivityComponent, ActivityIconPipe],
   imports: [
     CommonModule,
     IonicModule,

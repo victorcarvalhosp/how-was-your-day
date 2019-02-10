@@ -21,8 +21,8 @@ export class ActivitiesService {
             return from(this.db.collection(this.getPath()).doc(activity.id).update(activity));
         } else {
             const idBefore = this.db.createId();
-            activity.id = idBefore;
-            return from(this.db.collection(this.getPath()).doc(idBefore).set(activity));
+            const activityWithId: IActivity = {...activity, id: idBefore};
+            return from(this.db.collection(this.getPath()).doc(idBefore).set(activityWithId));
         }
     }
 

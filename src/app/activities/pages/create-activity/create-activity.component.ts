@@ -8,6 +8,7 @@ import {ActivityCloseModal, ActivityOpenModal, ActivitySaveRequested} from '../.
 import {ModalController} from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Validations} from '../../../shared/validators/validations';
+import {ActivityIconEnum} from '../../enums/activity-icon';
 
 @Component({
     selector: 'app-create-activity',
@@ -22,6 +23,7 @@ export class CreateActivityComponent implements OnInit {
 
     loadingSave$: Observable<boolean>;
     activity$: Observable<IActivity>;
+    icons: ActivityIconEnum[];
 
     constructor(private store: Store<AppState>,
                 private fb: FormBuilder) {
@@ -30,6 +32,7 @@ export class CreateActivityComponent implements OnInit {
     ngOnInit() {
         this.activity$ = this.store.pipe(select(selectActivity));
         this.loadingSave$ = this.store.pipe(select(isActivityLoadingSave));
+        this.icons = ActivityIconEnum.values();
         this.createForm();
         // this.form.patchValue(this.data);
     }

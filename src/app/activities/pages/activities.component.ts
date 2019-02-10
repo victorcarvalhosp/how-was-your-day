@@ -25,6 +25,10 @@ export class ActivitiesComponent implements OnInit {
     constructor(private store: Store<AppState>) {
     }
 
+    presentModal() {
+        this.store.dispatch(new ActivityOpenModal({activity: {id: null, name: null, icon: null}}));
+    }
+
     editActivity(activity: IActivity) {
         this.store.dispatch(new ActivityOpenModal({activity: activity}));
     }

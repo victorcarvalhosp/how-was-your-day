@@ -8,8 +8,8 @@
             </ion-buttons>
             <ion-title>{{activity.id ? 'Edit' : 'Create'}} Activity</ion-title>
             <ion-buttons slot="end">
-                <ion-spinner *ngIf="loadingSave$ | async" ></ion-spinner>
-                <ion-button (click)="save()" *ngIf="!(loadingSave$ | async)"  [disabled]="!form.valid">
+                <ion-spinner *ngIf="loadingSave$ | async"></ion-spinner>
+                <ion-button (click)="save()" *ngIf="!(loadingSave$ | async)" [disabled]="!form.valid">
                     <ion-icon name="send"></ion-icon>
                 </ion-button>
             </ion-buttons>
@@ -24,15 +24,16 @@
             <div class="error-hint">
                 {{ getError('name') }}
             </div>
-
-            <label>
-                <input type="radio" value="arrow-forward" formControlName="icon">
-                <img src="http://placehold.it/40x60/0bf/fff&text=A">
-            </label>
-            <label>
-                <input type="radio" value="arrow" formControlName="icon">
-                <img src="http://placehold.it/40x60/b0f/fff&text=B">
-            </label>
+            <ion-grid>
+                <ion-row justify-content-center>
+                    <ion-col *ngFor="let i of icons" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
+                        <label  >
+                            <input [id]="i" type="radio" [value]="i" formControlName="icon">
+                            <img src="/assets/icons_activities/{{i | activityIcon}}" style="width: 24px; height: 24px"/>
+                        </label>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
 
         </form>
     </ion-content>
