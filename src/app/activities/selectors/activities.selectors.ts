@@ -31,4 +31,9 @@ export const isActivitiesLoading = createSelector(
     state => state.loadingList
 );
 
+export const isActivityLoadingSave = createSelector(
+    selectActivitiesState,
+    state => state.loadingSave
+);
+
 

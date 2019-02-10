@@ -35,6 +35,25 @@ export class ActivityCloseModal implements Action {
     readonly type = ActivitiesActionTypes.ACTIVITY_CLOSE_MODAL;
 }
 
+export class ActivitySaveRequested implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_SAVE_REQUESTED;
+
+    constructor(public payload: { activity: IActivity }) {
+    }
+}
+
+export class ActivitySaveSucess implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_SAVE_SUCESS;
+    constructor(public payload: { activity: IActivity }) {
+    }
+}
+
+export class ActivitySaveFailed implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_SAVE_FAILED;
+    constructor(public payload: { saveErrorMessage: string }) {
+    }
+}
+
 export class ActivitiesStopLoading implements Action {
     readonly type = ActivitiesActionTypes.ACTIVITIES__STOP_LOADING;
 }
@@ -45,4 +64,7 @@ export type ActivitiesActions =
     | ActivitiesLoaded
     | ActivitiesStopLoading
     | ActivityOpenModal
-    | ActivityCloseModal;
+    | ActivityCloseModal
+    | ActivitySaveRequested
+    | ActivitySaveSucess
+    | ActivitySaveFailed;

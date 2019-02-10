@@ -7,10 +7,10 @@ import {
     ActivitiesLoaded,
     ActivitiesRequested,
     ActivitiesStopLoading, ActivityCloseModal,
-    ActivityOpenModal
+    ActivityOpenModal, ActivitySaveFailed, ActivitySaveRequested, ActivitySaveSucess
 } from '../actions/activities.actions';
 import {activitiesLoaded, selectAllActivities} from '../selectors/activities.selectors';
-import {filter, finalize, map, mergeMap, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, finalize, map, mergeMap, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
 import {ActivitiesService} from '../services/activities.service';
 import {EMPTY, from, Observable, of, pipe} from 'rxjs';
 import {CreateActivityComponent} from '../pages/create-activity/create-activity.component';
@@ -18,6 +18,7 @@ import {ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {ROUTE_ACTIVITIES_CREATE} from '../../shared/router/routes.constants';
 import {fromPromise} from 'rxjs/internal-compatibility';
+import {AuthActionTypes, Login, LoginFailed, LoginSuccess} from '../../auth/actions/auth.actions';
 
 
 @Injectable()
@@ -86,6 +87,33 @@ export class ActivitiesEffects {
                 this.modalController.dismiss();
             })
         );
+
+    @Effect()
+    saveActivity$: Observable<Action> = this.actions$.pipe(
+        ofType<ActivitySaveRequested>(ActivitiesActionTypes.ACTIVITY_SAVE_REQUESTED),
+        map((action: ActivitySaveRequested) => action.payload),
+        switchMap(payload => {
+            return this.activitiesService
+                .save(payload.activity)
+                .pipe(
+                    map(() => {
+                        return new ActivitySaveSucess({activity: payload.activity});
+                    }),
+                    catchError(error => {
+                        console.log(error);
+                        return of(new ActivitySaveFailed(error.message));
+                    })
+                );
+        })
+    );
+
+    @Effect()
+    saveActivitySucess$: Observable<Action> = this.actions$.pipe(
+        ofType<ActivitySaveSucess>(ActivitiesActionTypes.ACTIVITY_SAVE_SUCESS),
+        map(() => {
+            return new ActivityCloseModal();
+        })
+    );
 
 
     // @Effect()

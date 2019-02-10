@@ -1,64 +1,73 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../../reducers';
 import {Observable} from 'rxjs';
 import {IActivity} from '../../models/activity';
-import {isActivitiesLoading, selectActivity} from '../../selectors/activities.selectors';
-import {ActivityCloseModal, ActivityOpenModal} from '../../actions/activities.actions';
+import {isActivitiesLoading, isActivityLoadingSave, selectActivity} from '../../selectors/activities.selectors';
+import {ActivityCloseModal, ActivityOpenModal, ActivitySaveRequested} from '../../actions/activities.actions';
 import {ModalController} from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Validations} from '../../../shared/validators/validations';
 
 @Component({
-  selector: 'app-create-activity',
-  templateUrl: './create-activity.component.html',
-  styleUrls: ['./create-activity.component.scss']
+    selector: 'app-create-activity',
+    templateUrl: './create-activity.component.html',
+    styleUrls: ['./create-activity.component.scss']
 })
 export class CreateActivityComponent implements OnInit {
 
 
-  form: FormGroup;
-  validations: Validations;
+    form: FormGroup;
+    validations: Validations;
 
-  activity$: Observable<IActivity>;
-  constructor(private store: Store<AppState>,
-              private fb: FormBuilder) { }
+    loadingSave$: Observable<boolean>;
+    activity$: Observable<IActivity>;
 
-  ngOnInit() {
-    this.activity$ = this.store.pipe(select(selectActivity));
-    this.createForm();
-    // this.form.patchValue(this.data);
-  }
+    constructor(private store: Store<AppState>,
+                private fb: FormBuilder) {
+    }
 
-  createForm() {
-    this.form = this.fb.group({
-      id: [''],
-      name: ['', Validators.compose([Validators.required])],
-      icon: ['', Validators.required],
-    });
-    this.createValidationMessages();
-  }
+    ngOnInit() {
+        this.activity$ = this.store.pipe(select(selectActivity));
+        this.loadingSave$ = this.store.pipe(select(isActivityLoadingSave));
+        this.createForm();
+        // this.form.patchValue(this.data);
+    }
 
-  private createValidationMessages() {
-    this.validations = new Validations(
-        {
-          'name': {
-            'required': 'Name is required.',
-          },
-          'icon': {
-            'required': 'Icon is required.',
-          }
-        }
-    );
-  }
+    createForm() {
+        this.form = this.fb.group({
+            id: [''],
+            name: ['', Validators.compose([Validators.required])],
+            icon: ['', Validators.required],
+        });
+        this.createValidationMessages();
+    }
 
-  closeModal() {
-    this.store.dispatch(new ActivityCloseModal());
-  }
+    private createValidationMessages() {
+        this.validations = new Validations(
+            {
+                'name': {
+                    'required': 'Name is required.',
+                },
+                'icon': {
+                    'required': 'Icon is required.',
+                }
+            }
+        );
+    }
 
-  getError(name: string) {
-    const control = this.form.get(name);
-    return this.validations.getControlErrors(control);
-  }
+    closeModal() {
+        this.store.dispatch(new ActivityCloseModal());
+    }
+
+    save() {
+        console.log(this.form.value);
+        this.store.dispatch(new ActivitySaveRequested({activity: this.form.value}));
+    }
+
+    getError(name: string) {
+        const control = this.form.get(name);
+        return this.validations.getControlErrors(control);
+    }
 
 }

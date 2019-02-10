@@ -8,8 +8,8 @@
             </ion-buttons>
             <ion-title>{{activity.id ? 'Edit' : 'Create'}} Activity</ion-title>
             <ion-buttons slot="end">
-                <!--<ion-spinner ></ion-spinner>-->
-                <ion-button (click)="trySave()" [disabled]="!form.valid">
+                <ion-spinner *ngIf="loadingSave$ | async" ></ion-spinner>
+                <ion-button (click)="save()" *ngIf="!(loadingSave$ | async)"  [disabled]="!form.valid">
                     <ion-icon name="send"></ion-icon>
                 </ion-button>
             </ion-buttons>

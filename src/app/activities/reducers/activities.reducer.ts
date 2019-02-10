@@ -9,6 +9,7 @@ export interface ActivitiesState extends EntityState<IActivity> {
     activitiesLoaded: boolean;
     activity: IActivity;
     loadingSave: boolean;
+    saveErrorMessage: string;
 }
 
 export const activitiesAdapter: EntityAdapter<IActivity> =
@@ -30,7 +31,8 @@ export const initialActivitiesState: ActivitiesState = activitiesAdapter.getInit
     loadingList: false,
     activitiesLoaded: false,
     activity: null,
-    loadingSave: false
+    loadingSave: false,
+    saveErrorMessage: ''
 });
 
 export function activitiesReducer(state = initialActivitiesState, action: ActivitiesActions): ActivitiesState {
@@ -45,8 +47,13 @@ export function activitiesReducer(state = initialActivitiesState, action: Activi
             return {...state, activity: action.payload.activity};
         case ActivitiesActionTypes.ACTIVITY_CLOSE_MODAL:
             return {...state, activity: null};
-        // case ActivitiesActionTypes.ACTIVITY_SAVE_REQUESTED:
-        //     return {...state, loadingSave: true};
+        case ActivitiesActionTypes.ACTIVITY_SAVE_REQUESTED:
+            return {...state, loadingSave: true};
+        case ActivitiesActionTypes.ACTIVITY_SAVE_SUCESS:
+            return activitiesAdapter.upsertOne(action.payload.activity, {...state, loadingSave: false, saveErrorMessage: ''});
+            // return {...state, loadingSave: false, saveErrorMessage: ''};
+        case ActivitiesActionTypes.ACTIVITY_SAVE_FAILED:
+            return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
         default:
             return state;
     }
