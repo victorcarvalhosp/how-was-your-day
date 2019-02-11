@@ -10,30 +10,35 @@ import {StoreModule} from '@ngrx/store';
 import {MoodsEffects} from './effects/moods.effects';
 import {moodsReducer} from './reducers/moods.reducer';
 import {CreateMoodComponent} from './pages/create-mood/create-mood.component';
-import { MoodIconPipe } from './pipes/mood-icon.pipe';
+import {MoodIconPipe} from './pipes/mood-icon.pipe';
+import {MoodsPipesModule} from './pipes/moods-pipes.module';
 
 export const moodsRoutes: Routes = [
-  {
-    path: '',
-    component: MoodsComponent
+    {
+        path: '',
+        component: MoodsComponent
 
-  },
-  {
-    path: 'create',
-    component: CreateMoodComponent
-  }
+    },
+    {
+        path: 'create',
+        component: CreateMoodComponent
+    }
 ];
+
 @NgModule({
-  declarations: [MoodsComponent, CreateMoodComponent, MoodIconPipe],
-  imports: [
-    CommonModule,
-    IonicModule,
-    ReactiveFormsModule,
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(moodsRoutes),
-    EffectsModule.forFeature([MoodsEffects]),
-    StoreModule.forFeature('moods', moodsReducer),
-  ]
+    declarations: [MoodsComponent, CreateMoodComponent],
+    imports: [
+        CommonModule,
+        IonicModule,
+        ReactiveFormsModule,
+        CommonModule,
+        SharedModule,
+        MoodsPipesModule,
+        RouterModule.forChild(moodsRoutes),
+        EffectsModule.forFeature([MoodsEffects]),
+        StoreModule.forFeature('moods', moodsReducer),
+    ],
+    exports: [MoodsComponent, CreateMoodComponent]
 })
-export class MoodsModule { }
+export class MoodsModule {
+}

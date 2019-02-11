@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            Tab One
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <app-responsive-area>
+        <ion-spinner *ngIf="loading$ | async"></ion-spinner>
+        <ion-card *ngFor="let e of list$ | async">
+            <ion-item lines="none">
+                <ion-avatar slot="start">
+                    <img src="/assets/icons_moods/{{e.mood.icon | moodIcon}}"
+                         style="width: 32px; height: 32px"/>
+                </ion-avatar>
+                <ion-label>
+                    <h2>{{e.mood.name}}</h2>
+                    <p><ion-card-subtitle *ngFor="let a of e.activities">
+                        <img src="/assets/icons_activities/{{a.icon | activityIcon}}"
+                             style="width: 16px; height: 16px"/>{{a.name}}</ion-card-subtitle></p>
+                </ion-label>
+            </ion-item>
+            <ion-card-content>
+                <p>{{e.notes}}</p>
+            </ion-card-content>
+        </ion-card>
+    </app-responsive-area>
+</ion-content>

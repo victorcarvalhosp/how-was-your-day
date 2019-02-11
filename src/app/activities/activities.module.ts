@@ -10,30 +10,35 @@ import {StoreModule} from '@ngrx/store';
 import {ActivitiesEffects} from './effects/activities.effects';
 import {activitiesReducer} from './reducers/activities.reducer';
 import {CreateActivityComponent} from './pages/create-activity/create-activity.component';
-import { ActivityIconPipe } from './pipes/activity-icon.pipe';
+import {ActivityIconPipe} from './pipes/activity-icon.pipe';
+import {ActivitiesPipesModule} from './pipes/activities-pipes.module';
 
 export const activitiesRoutes: Routes = [
-  {
-    path: '',
-    component: ActivitiesComponent
+    {
+        path: '',
+        component: ActivitiesComponent
 
-  },
-  {
-    path: 'create',
-    component: CreateActivityComponent
-  }
+    },
+    {
+        path: 'create',
+        component: CreateActivityComponent
+    }
 ];
+
 @NgModule({
-  declarations: [ActivitiesComponent, CreateActivityComponent, ActivityIconPipe],
-  imports: [
-    CommonModule,
-    IonicModule,
-    ReactiveFormsModule,
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(activitiesRoutes),
-    EffectsModule.forFeature([ActivitiesEffects]),
-    StoreModule.forFeature('activities', activitiesReducer),
-  ]
+    declarations: [ActivitiesComponent, CreateActivityComponent],
+    imports: [
+        CommonModule,
+        IonicModule,
+        ReactiveFormsModule,
+        CommonModule,
+        SharedModule,
+        ActivitiesPipesModule,
+        RouterModule.forChild(activitiesRoutes),
+        EffectsModule.forFeature([ActivitiesEffects]),
+        StoreModule.forFeature('activities', activitiesReducer),
+    ],
+    exports: [ActivitiesComponent, CreateActivityComponent]
 })
-export class ActivitiesModule { }
+export class ActivitiesModule {
+}

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { MoodsEffects } from './moods.effects';
 
-describe('MoodsEffects', () => {
+describe('EntriesEffects', () => {
   let actions$: Observable<any>;
   let effects: MoodsEffects;
 
