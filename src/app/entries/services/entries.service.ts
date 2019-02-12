@@ -6,6 +6,7 @@ import {AppState} from '../../reducers';
 import {take} from 'rxjs/operators';
 import {IActivity} from '../../activities/models/activity';
 import {IEntry} from '../models/entry';
+import {IPeriod} from '../../period/models/period';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +29,12 @@ export class EntriesService {
 
     findAll(): Observable<IEntry[]> {
       return  this.db.collection<IEntry>(this.getPath()).valueChanges().pipe(take(1));
+    }
+
+    findByPeriod(period: IPeriod): Observable<IEntry[]> {
+        return  this.db.collection<IEntry>(this.getPath(),
+            ref => ref.where('date', '<=', period.endDate)
+                .where('date', '>=', period.startDate)).valueChanges().pipe(take(1));
     }
 
     getPath(): string {

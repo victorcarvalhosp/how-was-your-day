@@ -19,7 +19,7 @@ export const initialReducerMap = {
 
 export function getInitialState() {
   return {
-    auth: authReducers.initialState,
+    auth: authReducers.initialAuthState,
   } as AppState;
 }
 

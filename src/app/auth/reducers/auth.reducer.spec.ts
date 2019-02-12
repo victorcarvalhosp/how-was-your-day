@@ -1,4 +1,4 @@
-import { authReducer, initialState } from './auth.reducer';
+import { authReducer, initialAuthState } from './auth.reducer';
 import {AuthActions, AuthActionTypes, Login} from '../actions/auth.actions';
 import * as authReducer from './auth.reducer';
 
@@ -9,9 +9,9 @@ describe('Auth Reducer', () => {
     it('should return the previous state', () => {
       const action = {} as any;
 
-      const result = authReducer(initialState, action);
+      const result = authReducer(initialAuthState, action);
 
-      expect(result).toBe(initialState);
+      expect(result).toBe(initialAuthState);
     });
   });
 
@@ -19,7 +19,7 @@ describe('Auth Reducer', () => {
   describe('LOGIN action', () => {
     it('should set loadingList to true and hide error messages', () => {
       const action = new Login({identifier: 'test'});
-      const state = authReducer.authReducer(initialState, action);
+      const state = authReducer.authReducer(initialAuthState, action);
 
       expect(state.loading).toEqual(true);
       expect(state.errorMessage).toEqual('');

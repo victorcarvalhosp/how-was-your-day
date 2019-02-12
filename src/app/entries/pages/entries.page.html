@@ -13,6 +13,7 @@
     </ion-refresher>
 
     <app-responsive-area>
+        <app-period></app-period>
         <ion-spinner *ngIf="loading$ | async"></ion-spinner>
         <ion-card *ngFor="let e of list$ | async">
             <ion-item lines="none">

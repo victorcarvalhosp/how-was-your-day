@@ -21,11 +21,6 @@ export const selectEntry = createSelector(
     entriesState => entriesState.entry
 );
 
-export const entriesLoaded = createSelector(
-    selectEntriesState,
-    entriesState => entriesState.entriesLoaded
-);
-
 export const isEntriesLoading = createSelector(
     selectEntriesState,
     state => state.loadingList

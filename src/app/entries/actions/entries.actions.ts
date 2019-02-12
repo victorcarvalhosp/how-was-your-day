@@ -2,8 +2,7 @@ import {Action} from '@ngrx/store';
 import {IEntry} from '../models/entry';
 
 export enum EntriesActionTypes {
-    ENTRIES_REQUESTED_WITH_CACHE = '[Entries] Entries Requested',
-    ENTRIES_REQUESTED_FROM_API = '[Firebase API] Entries Requested From API',
+    ENTRIES_REQUESTED = '[Entries] Entries Requested',
     ENTRIES_LOADED = '[Firebase API] Entries Loaded',
     ENTRIES_REQUEST_FAILED = '[Firebase API] Entries Request Failed',
     ENTRIES_STOP_LOADING = '[Entries] Entries Stop Loading',
@@ -14,12 +13,8 @@ export enum EntriesActionTypes {
     ENTRY_SAVE_FAILED = '[Entries] Save Failed'
 }
 
-export class EntriesRequestedWithCache implements Action {
-    readonly type = EntriesActionTypes.ENTRIES_REQUESTED_WITH_CACHE;
-}
-
-export class EntriesRequestedFromApi implements Action {
-    readonly type = EntriesActionTypes.ENTRIES_REQUESTED_FROM_API;
+export class EntriesRequested implements Action {
+    readonly type = EntriesActionTypes.ENTRIES_REQUESTED;
 }
 
 export class EntriesLoaded implements Action {
@@ -71,7 +66,7 @@ export class EntriesRequestFailed implements Action {
 
 
 export type EntriesActions =
-    EntriesRequestedWithCache
+    EntriesRequested
     | EntriesLoaded
     | EntriesStopLoading
     | EntryOpenModal
@@ -79,5 +74,4 @@ export type EntriesActions =
     | EntrySaveRequested
     | EntrySaveSucess
     | EntrySaveFailed
-    | EntriesRequestedFromApi
     | EntriesRequestFailed;

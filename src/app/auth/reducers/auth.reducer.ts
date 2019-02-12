@@ -1,5 +1,4 @@
 import {AuthActions, AuthActionTypes} from '../actions/auth.actions';
-import UserCredential = firebase.auth.UserCredential;
 import {IUser} from '../models/user';
 
 
@@ -13,14 +12,14 @@ export interface AuthState {
 }
 
 // Here is the initial state set if no changes happened
-export const initialState: AuthState = {
+export const initialAuthState: AuthState = {
     authenticated: false,
     userCredentials: null,
     errorMessage: '',
     loading: false
 };
 
-export function authReducer(state = initialState, action: AuthActions): AuthState {
+export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
     switch (action.type) {
         case AuthActionTypes.LOGIN:
             return {

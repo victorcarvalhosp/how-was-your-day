@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
 import {IAuthentication} from '../models/authentication';
-import UserCredential = firebase.auth.UserCredential;
 import {IUser} from '../models/user';
 
 export enum AuthActionTypes {

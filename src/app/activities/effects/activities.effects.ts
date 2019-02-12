@@ -4,21 +4,24 @@ import {Action, select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {
     ActivitiesActionTypes,
-    ActivitiesLoaded, ActivitiesRequestedFromApi,
-    ActivitiesRequestedWithCache, ActivitiesRequestFailed,
-    ActivitiesStopLoading, ActivityCloseModal,
-    ActivityOpenModal, ActivitySaveFailed, ActivitySaveRequested, ActivitySaveSucess
+    ActivitiesLoaded,
+    ActivitiesRequestedFromApi,
+    ActivitiesRequestedWithCache,
+    ActivitiesRequestFailed,
+    ActivitiesStopLoading,
+    ActivityCloseModal,
+    ActivityOpenModal,
+    ActivitySaveFailed,
+    ActivitySaveRequested,
+    ActivitySaveSucess
 } from '../actions/activities.actions';
-import {activitiesLoaded, selectAllActivities} from '../selectors/activities.selectors';
-import {catchError, filter, finalize, map, mergeMap, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import {activitiesLoaded} from '../selectors/activities.selectors';
+import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {ActivitiesService} from '../services/activities.service';
-import {EMPTY, from, Observable, of, pipe} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {CreateActivityComponent} from '../pages/create-activity/create-activity.component';
 import {ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {ROUTE_ACTIVITIES_CREATE} from '../../shared/router/routes.constants';
-import {fromPromise} from 'rxjs/internal-compatibility';
-import {AuthActionTypes, Login, LoginFailed, LoginSuccess} from '../../auth/actions/auth.actions';
 
 
 @Injectable()
@@ -50,6 +53,7 @@ export class ActivitiesEffects {
             withLatestFrom(this.store.pipe(select(activitiesLoaded))),
             map(([action, loaded]) => [action, loaded]),
             switchMap(([action, loaded]) => {
+                console.log('ACTIVITIES EFFECTS');
                 let obs;
                 if (loaded) {
                     obs = of(new ActivitiesStopLoading());

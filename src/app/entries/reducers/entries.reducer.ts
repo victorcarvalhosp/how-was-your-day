@@ -6,7 +6,6 @@ import {EntriesActions, EntriesActionTypes} from '../actions/entries.actions';
 
 export interface EntriesState extends EntityState<IEntry> {
     loadingList: boolean;
-    entriesLoaded: boolean;
     listErrorMessage: string;
     entry: IEntry;
     loadingSave: boolean;
@@ -30,7 +29,6 @@ function sortByName(a: IEntry, b: IEntry) {
 
 export const initialEntriesState: EntriesState = entriesAdapter.getInitialState({
     loadingList: false,
-    entriesLoaded: false,
     entry: null,
     loadingSave: false,
     saveErrorMessage: '',
@@ -39,10 +37,10 @@ export const initialEntriesState: EntriesState = entriesAdapter.getInitialState(
 
 export function entriesReducer(state = initialEntriesState, action: EntriesActions): EntriesState {
     switch (action.type) {
-        case EntriesActionTypes.ENTRIES_REQUESTED_WITH_CACHE || EntriesActionTypes.ENTRIES_REQUESTED_FROM_API:
+        case EntriesActionTypes.ENTRIES_REQUESTED:
             return {...state, loadingList: true, listErrorMessage: ''};
         case EntriesActionTypes.ENTRIES_LOADED:
-            return entriesAdapter.addAll(action.payload.entries, {...state, entriesLoaded: true, loadingList: false});
+            return entriesAdapter.addAll(action.payload.entries, {...state, loadingList: false});
         case EntriesActionTypes.ENTRIES_REQUEST_FAILED:
             return {...state, loadingList: false, listErrorMessage: action.payload.saveErrorMessage};
         case EntriesActionTypes.ENTRIES_STOP_LOADING:

@@ -5,8 +5,7 @@ import {AppState} from '../../reducers';
 import {
     EntriesActionTypes,
     EntriesLoaded,
-    EntriesRequestedFromApi,
-    EntriesRequestedWithCache,
+    EntriesRequested,
     EntriesRequestFailed,
     EntriesStopLoading,
     EntryCloseModal,
@@ -15,12 +14,13 @@ import {
     EntrySaveRequested,
     EntrySaveSucess
 } from '../actions/entries.actions';
-import {entriesLoaded} from '../selectors/entries.selectors';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {EntriesService} from '../services/entries.service';
 import {Observable, of} from 'rxjs';
 import {ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {PeriodActionTypes, PeriodLoaded} from '../../period/actions/period.actions';
+import {selectPeriod} from '../../period/selectors/period.selectors';
 
 
 @Injectable()
@@ -31,31 +31,25 @@ export class EntriesEffects {
                 private modalController: ModalController, private router: Router) {
     }
 
-
     @Effect()
-    loadAllEntries$: Observable<Action> = this.actions$
+    previousPeriodMonthRequested$: Observable<Action> = this.actions$
         .pipe(
-            ofType<EntriesRequestedWithCache>(EntriesActionTypes.ENTRIES_REQUESTED_WITH_CACHE),
-            withLatestFrom(this.store.pipe(select(entriesLoaded))),
-            map(([action, loaded]) => [action, loaded]),
-            switchMap(([action, loaded]) => {
-                let obs;
-                if (loaded) {
-                    obs = of(new EntriesStopLoading());
-                } else {
-                    obs = of(new EntriesRequestedFromApi());
-                }
-                return obs;
-            })
+            ofType<PeriodLoaded>(PeriodActionTypes.PERIOD_LOADED),
+            map(action => {
+                return new EntriesRequested();
+            }),
         );
+
 
 
     @Effect()
     loadAllEntriesFromApi$: Observable<Action> = this.actions$
         .pipe(
-            ofType<EntriesRequestedFromApi>(EntriesActionTypes.ENTRIES_REQUESTED_FROM_API),
-            switchMap((action) => {
-                return this.entriesService.findAll().pipe(
+            ofType<EntriesRequested>(EntriesActionTypes.ENTRIES_REQUESTED),
+            withLatestFrom(this.store.pipe(select(selectPeriod))),
+            map(([action, period]) => period),
+            switchMap((period) => {
+                return this.entriesService.findByPeriod(period).pipe(
                     map(entries => {
                         return new EntriesLoaded({entries});
                     }),
@@ -114,34 +108,5 @@ export class EntriesEffects {
             return new EntryCloseModal();
         })
     );
-
-
-    // @Effect()
-    // loadAllEntries$: Observable<Action> = this.actions$.pipe(
-    //     ofType(EntriesActionTypes.ENTRIES_REQUESTED_WITH_CACHE),
-    //     withLatestFrom(this.store.pipe(select(entriesLoaded))),
-    //     switchMap(([, loaded]) => {
-    //         if (loaded) {
-    //             return new ENTRIES_STOP_LOADING();
-    //         }
-    //         return this.entriesService.findAll().pipe(
-    //             map((entries) => {
-    //                 return new ENTRIES_LOADED({entries});
-    //
-    //             })
-    //         );
-    //     })
-    // );
-
-
-    // @Effect()
-    // loadAllEntries$ = this.actions$
-    //     .pipe(
-    //         ofType<ENTRIES_REQUESTED_WITH_CACHE>(EntriesActionTypes.ENTRIES_REQUESTED_WITH_CACHE),
-    //         withLatestFrom(this.store.pipe(select(selectAllEntries))),
-    //         filter(([action,  entries]) => !!entries),
-    //         mergeMap(() => this.entriesService.findAll()),
-    //         map(entries => new ENTRIES_LOADED({entries}))
-    //     );
 
 }

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
-import {EntriesRequestedFromApi, EntriesRequestedWithCache} from '../actions/entries.actions';
+import {EntriesRequested} from '../actions/entries.actions';
 import {isEntriesLoading, selectAllEntries} from '../selectors/entries.selectors';
 import {IEntry} from '../models/entry';
 
@@ -20,7 +20,7 @@ export class EntriesPage implements OnInit{
   }
 
   ngOnInit() {
-    this.store.dispatch(new EntriesRequestedWithCache());
+    this.store.dispatch(new EntriesRequested());
     this.loading$ = this.store.pipe(select(isEntriesLoading));
     this.list$ = this.store.pipe(select(selectAllEntries));
   }
@@ -35,7 +35,7 @@ export class EntriesPage implements OnInit{
 
   doRefresh(event) {
     console.log('Begin async operation');
-    this.store.dispatch(new EntriesRequestedFromApi());
+    this.store.dispatch(new EntriesRequested());
 
     setTimeout(() => {
       console.log('Async operation has ended');

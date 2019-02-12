@@ -11,6 +11,7 @@ import {entriesReducer} from './reducers/entries.reducer';
 import {EntriesEffects} from './effects/entries.effects';
 import {MoodsPipesModule} from '../moods/pipes/moods-pipes.module';
 import {ActivitiesPipesModule} from '../activities/pipes/activities-pipes.module';
+import {PeriodModule} from '../period/period.module';
 
 
 export const entriesRoutes: Routes = [
@@ -30,6 +31,7 @@ export const entriesRoutes: Routes = [
         SharedModule,
         MoodsPipesModule,
         ActivitiesPipesModule,
+        PeriodModule,
         RouterModule.forChild(entriesRoutes),
         EffectsModule.forFeature([EntriesEffects]),
         StoreModule.forFeature('entries', entriesReducer),

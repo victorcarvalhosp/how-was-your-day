@@ -55,7 +55,6 @@ export function activitiesReducer(state = initialActivitiesState, action: Activi
             return {...state, loadingSave: true};
         case ActivitiesActionTypes.ACTIVITY_SAVE_SUCESS:
             return activitiesAdapter.upsertOne(action.payload.activity, {...state, loadingSave: false, saveErrorMessage: ''});
-            // return {...state, loadingSave: false, saveErrorMessage: ''};
         case ActivitiesActionTypes.ACTIVITY_SAVE_FAILED:
             return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
         default:
