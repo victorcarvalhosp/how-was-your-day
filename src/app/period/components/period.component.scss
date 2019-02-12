@@ -1,0 +1,30 @@
+.period-name{
+  text-align: center;
+  padding-top: 8px;
+}
+.period {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+  padding: 6px;
+}
+
+ion-icon{
+  font-size: 32px;
+}
+
+.title-info {
+  p {
+    display: inline;
+  }
+  border-top: 0;
+}
+
+.period-info {
+  display: inline;
+  p {
+    display: inline;
+    font-size: 10px;
+  }
+}
