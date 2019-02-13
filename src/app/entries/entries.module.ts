@@ -12,12 +12,18 @@ import {EntriesEffects} from './effects/entries.effects';
 import {MoodsPipesModule} from '../moods/pipes/moods-pipes.module';
 import {ActivitiesPipesModule} from '../activities/pipes/activities-pipes.module';
 import {PeriodModule} from '../period/period.module';
+import {CreateEntryComponent} from './pages/create-entry/create-entry.component';
 
 
 export const entriesRoutes: Routes = [
     {
         path: '',
         component: EntriesPage
+
+    },
+    {
+        path: 'create',
+        component: CreateEntryComponent
 
     },
 ];
@@ -36,7 +42,7 @@ export const entriesRoutes: Routes = [
         EffectsModule.forFeature([EntriesEffects]),
         StoreModule.forFeature('entries', entriesReducer),
     ],
-    declarations: [EntriesPage]
+    declarations: [EntriesPage, CreateEntryComponent]
 })
 export class EntriesModule {
 }

@@ -1,0 +1,23 @@
+<ng-container *ngIf="entry$ | async as entry">
+  <ion-header no-border>
+    <ion-toolbar class="transparent-toolbar">
+      <ion-buttons slot="start">
+        <ion-button (click)="closeModal()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{entry.id ? 'Edit' : 'Create'}} Entry</ion-title>
+      <ion-buttons slot="end">
+        <ion-spinner *ngIf="loadingSave$ | async"></ion-spinner>
+        <ion-button (click)="save()" *ngIf="!(loadingSave$ | async)" [disabled]="!form.valid">
+          <ion-icon name="send"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content padding>
+    <form [formGroup]="form" [appConnectForm]="entry">
+
+    </form>
+  </ion-content>
+</ng-container>

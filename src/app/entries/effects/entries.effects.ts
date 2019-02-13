@@ -21,6 +21,7 @@ import {ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {PeriodActionTypes, PeriodLoaded} from '../../period/actions/period.actions';
 import {selectPeriod} from '../../period/selectors/period.selectors';
+import {CreateEntryComponent} from '../pages/create-entry/create-entry.component';
 
 
 @Injectable()
@@ -66,9 +67,9 @@ export class EntriesEffects {
         .pipe(
             ofType<EntryOpenModal>(EntriesActionTypes.ENTRY_OPEN_MODAL),
             map((action) => {
-                // this.modalController.create({
-                //     component: CreateEntryComponent,
-                // }).then(modal => modal.present());
+                this.modalController.create({
+                    component: CreateEntryComponent,
+                }).then(modal => modal.present());
                 // this.router.navigate([ROUTE_ENTRIES_CREATE]);
             })
         );

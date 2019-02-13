@@ -2,45 +2,41 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
-import {EntriesRequested} from '../actions/entries.actions';
+import {EntriesRequested, EntryOpenModal} from '../actions/entries.actions';
 import {isEntriesLoading, selectAllEntries} from '../selectors/entries.selectors';
 import {IEntry} from '../models/entry';
 
 @Component({
-  selector: 'app-entries',
-  templateUrl: 'entries.page.html',
-  styleUrls: ['entries.page.scss']
+    selector: 'app-entries',
+    templateUrl: 'entries.page.html',
+    styleUrls: ['entries.page.scss']
 })
-export class EntriesPage implements OnInit{
+export class EntriesPage implements OnInit {
 
-  loading$: Observable<boolean>;
-  list$: Observable<IEntry[]>;
+    loading$: Observable<boolean>;
+    list$: Observable<IEntry[]>;
 
-  constructor(private store: Store<AppState>) {
-  }
+    constructor(private store: Store<AppState>) {
+    }
 
-  ngOnInit() {
-    this.store.dispatch(new EntriesRequested());
-    this.loading$ = this.store.pipe(select(isEntriesLoading));
-    this.list$ = this.store.pipe(select(selectAllEntries));
-  }
+    ngOnInit() {
+        this.store.dispatch(new EntriesRequested());
+        this.loading$ = this.store.pipe(select(isEntriesLoading));
+        this.list$ = this.store.pipe(select(selectAllEntries));
+    }
 
-  presentModal() {
-    // this.store.dispatch(new ActivityOpenModal({activity: {id: null, name: null, icon: null}}));
-  }
+    presentModal() {
+        this.store.dispatch(new EntryOpenModal({entry: {id: null, name: null, date: new Date()}}));
+    }
 
-  editEntry(entry: IEntry) {
-    // this.store.dispatch(new ActivityOpenModal({activity: entry}));
-  }
+    editEntry(entry: IEntry) {
+        this.store.dispatch(new EntryOpenModal({entry: entry}));
+    }
 
-  doRefresh(event) {
-    console.log('Begin async operation');
-    this.store.dispatch(new EntriesRequested());
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
-  }
+    doRefresh(event) {
+        console.log('Begin async operation');
+        this.store.dispatch(new EntriesRequested());
+        console.log('Async operation has ended');
+    }
 
 }
