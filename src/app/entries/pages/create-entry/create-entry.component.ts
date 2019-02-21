@@ -30,6 +30,7 @@ export class CreateEntryComponent implements OnInit {
     entry$: Observable<IEntry>;
     moods$: Observable<IMood[]>;
     activities$: Observable<IActivity[]>;
+    private activities: IActivity[];
 
 
     constructor(private store: Store<AppState>,
@@ -55,13 +56,11 @@ export class CreateEntryComponent implements OnInit {
             activities: new FormArray([], minSelectedCheckboxes(1))
         });
         this.createValidationMessages();
-        let activities = [];
 
         this.activities$.pipe(take(2)).subscribe(res => {
-            activities = res;
-            console.log(activities);
-            const controls = activities.map(c => new FormControl(false));
-            this.form.setControl('activities', this.fb.array(activities || []));
+            this.activities = res;
+            const controls = this.activities.map(c => new FormControl(false));
+            this.form.setControl('activities', this.fb.array(this.activities || []));
             console.log(this.form.controls['activities']);
             // controls[0].setValue(true);
         });
@@ -85,8 +84,13 @@ export class CreateEntryComponent implements OnInit {
     }
 
     save() {
+        const selectedOrderIds = this.form.value.activities
+            .map((v, i) => v ? this.activities[i] : null)
+            .filter(v => v !== null);
         console.log(this.form.value);
-        this.store.dispatch(new EntrySaveRequested({entry: this.form.value}));
+        console.log(selectedOrderIds);
+        const entry: IEntry = {...this.form.value, activities: selectedOrderIds}
+        this.store.dispatch(new EntrySaveRequested({entry: entry}));
     }
 
     getError(name: string) {
