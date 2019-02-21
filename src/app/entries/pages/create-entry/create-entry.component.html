@@ -17,6 +17,30 @@
   </ion-header>
   <ion-content padding>
     <form [formGroup]="form" [appConnectForm]="entry">
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col *ngFor="let m of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
+            <label>
+              <input [id]="m.id" type="radio" [value]="m" formControlName="mood">
+              <img src="/assets/icons_moods/{{m.icon | moodIcon}}" style="width: 24px; height: 24px"/>
+            </label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid *ngIf="form.controls['mood'].value">
+        <ion-row justify-content-center>
+          <ng-container *ngIf="activities$ | async as activities">
+          <ion-col *ngFor="let a of form.controls['activities'].controls; let i = index" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
+            <label formArrayName="activities">
+              {{activities[i].name}}
+              <input [id]="a.id" type="checkbox" [value]="a.id" [formControlName]="i">
+              <img src="/assets/icons_activities/{{activities[i].icon | activityIcon}}" style="width: 24px; height: 24px"/>
+            </label>
+          </ion-col>
+          </ng-container>
+        </ion-row>
+      </ion-grid>
 
     </form>
   </ion-content>
