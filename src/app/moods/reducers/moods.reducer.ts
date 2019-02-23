@@ -15,14 +15,15 @@ export interface MoodsState extends EntityState<IMood> {
 
 export const moodsAdapter: EntityAdapter<IMood> =
     createEntityAdapter<IMood>({
-        sortComparer: sortByName
+        sortComparer: sortByOrder,
+        selectId: mood => mood.id
     });
 
-function sortByName(a: IMood, b: IMood) {
-    if (a.name < b.name) {
+function sortByOrder(a: IMood, b: IMood) {
+    if (a.order < b.order) {
         return -1;
     }
-    if (a.name > b.name) {
+    if (a.order > b.order) {
         return 1;
     }
     return 0;
@@ -55,8 +56,13 @@ export function moodsReducer(state = initialMoodsState, action: MoodsActions): M
             return {...state, loadingSave: true};
         case MoodsActionTypes.MOOD_SAVE_SUCESS:
             return moodsAdapter.upsertOne(action.payload.mood, {...state, loadingSave: false, saveErrorMessage: ''});
-            // return {...state, loadingSave: false, saveErrorMessage: ''};
         case MoodsActionTypes.MOOD_SAVE_FAILED:
+            return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
+        case MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_REQUESTED:
+            return {...state, loadingSave: true};
+        case MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_SUCESS:
+            return moodsAdapter.upsertMany(action.payload.moods, {...state, loadingSave: false, saveErrorMessage: ''});
+        case MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_FAILED:
             return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
         default:
             return state;

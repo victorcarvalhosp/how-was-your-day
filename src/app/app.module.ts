@@ -21,6 +21,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {AuthEffects} from './auth/effects/auth.effects';
 
+
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
@@ -34,13 +35,13 @@ import {AuthEffects} from './auth/effects/auth.effects';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
     ],
 
     providers: [
         StatusBar,
         SplashScreen,
-        { provide: RouterStateSerializer, useClass: CustomSerializer },
+        {provide: RouterStateSerializer, useClass: CustomSerializer},
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
     bootstrap: [AppComponent]

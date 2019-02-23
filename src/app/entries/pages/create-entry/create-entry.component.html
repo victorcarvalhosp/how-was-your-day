@@ -22,7 +22,8 @@
           <ion-col *ngFor="let m of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
             <label>
               <input [id]="m.id" type="radio" [value]="m" formControlName="mood">
-              <img src="/assets/icons_moods/{{m.icon | moodIcon}}" style="width: 24px; height: 24px"/>
+              <fa-icon slot="start" [icon]="[form.controls['mood'].value === m ?'far':'fas', (m.icon | moodIcon)]"
+                       size="2x" [ngStyle]="{color: m.color}"></fa-icon>
             </label>
           </ion-col>
         </ion-row>

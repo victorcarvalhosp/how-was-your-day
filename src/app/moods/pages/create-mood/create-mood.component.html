@@ -27,13 +27,19 @@
             <ion-grid>
                 <ion-row justify-content-center>
                     <ion-col *ngFor="let i of icons" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
-                        <label  >
+                        <label>
                             <input [id]="i" type="radio" [value]="i" formControlName="icon">
-                            <img src="/assets/icons_moods/{{i | moodIcon}}" style="width: 24px; height: 24px"/>
+                            <fa-icon [icon]="[form.controls['icon'].value === i ? 'fas' : 'far', (i | moodIcon)]"
+                                     size="2x" [ngStyle]="{color: form.controls['color'].value}"></fa-icon>
+                            <!--<img src="/assets/icons_moods/{{i | moodIcon}}" style="width: 24px; height: 24px"/>-->
                         </label>
                     </ion-col>
                 </ion-row>
             </ion-grid>
+
+            <ion-label>Color:</ion-label>
+            <app-color-picker formControlName="color"></app-color-picker>
+
 
         </form>
     </ion-content>

@@ -18,8 +18,8 @@
         <ion-card *ngFor="let e of list$ | async">
             <ion-item lines="none">
                 <ion-avatar slot="start">
-                    <img src="/assets/icons_moods/{{e.mood.icon | moodIcon}}"
-                         style="width: 32px; height: 32px"/>
+                    <fa-icon slot="start" [icon]="['far', (e.mood.icon | moodIcon)]"
+                             size="2x" [ngStyle]="{color: e.mood.color}"></fa-icon>
                 </ion-avatar>
                 <ion-label>
                     <h2>{{e.mood.name}}</h2>

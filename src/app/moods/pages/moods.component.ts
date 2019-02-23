@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {isMoodsLoading, selectAllMoods} from '../selectors/moods.selectors';
 import {IMood} from '../models/mood';
-import {MoodOpenModal, MoodsRequestedFromApi, MoodsRequestedWithCache} from '../actions/moods.actions';
-import {IonReorderGroup} from '@ionic/angular';
+import {MoodOpenModal, MoodsRequestedFromApi, MoodsRequestedWithCache, MoodsSaveChangeOrderRequested} from '../actions/moods.actions';
+import {take} from 'rxjs/operators';
+import {fromArray} from 'rxjs/internal/observable/fromArray';
 
 @Component({
     selector: 'app-moods',
@@ -31,11 +32,22 @@ export class MoodsComponent implements OnInit {
 
     moveMood(e): void {
         console.log(e);
-        e.detail.complete();
+        let moods: IMood[] = [];
+
+        this.list$.pipe(take(1)).subscribe((res: IMood[]) => {
+            console.log(res);
+            moods = res;
+            const itemMove = moods.splice(e.detail.from, 1)[0];
+            const moodsReordered = moods.splice(e.detail.to, 0, itemMove);
+            this.store.dispatch(new MoodsSaveChangeOrderRequested({moods: moodsReordered}));
+            // // @ts-ignore
+            // this.list$ = from(moods);
+            e.detail.complete();
+        });
     }
 
     presentModal() {
-        this.store.dispatch(new MoodOpenModal({mood: {id: null, name: null, icon: null}}));
+        this.store.dispatch(new MoodOpenModal({mood: {id: null, name: null, icon: null, color: ''}}));
     }
 
     editMood(mood: IMood) {

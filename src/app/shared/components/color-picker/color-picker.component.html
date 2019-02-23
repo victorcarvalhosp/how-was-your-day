@@ -1,0 +1,6 @@
+<div class="color-component">
+      <span *ngFor="let c of colors" >
+        <input type="radio" name="color" id="{{c}}" [value]="c" (change)="onChange($event, c)" />
+        <label for="{{c}}"><span [ngStyle]="{background: c}"></span></label>
+      </span>
+</div>

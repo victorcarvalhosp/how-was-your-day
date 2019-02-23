@@ -12,7 +12,7 @@ import {
     MoodsLoaded,
     MoodsRequestedFromApi,
     MoodsRequestedWithCache,
-    MoodsRequestFailed,
+    MoodsRequestFailed, MoodsSaveChangeOrderFailed, MoodsSaveChangeOrderRequested, MoodsSaveChangeOrderSucess,
     MoodsStopLoading
 } from '../actions/moods.actions';
 import {moodsLoaded} from '../selectors/moods.selectors';
@@ -97,8 +97,8 @@ export class MoodsEffects {
             return this.moodsService
                 .save(payload.mood)
                 .pipe(
-                    map(() => {
-                        return new MoodSaveSucess({mood: payload.mood});
+                    map((moodWithId) => {
+                        return new MoodSaveSucess({mood: moodWithId});
                     }),
                     catchError(error => {
                         console.log(error);
@@ -113,6 +113,34 @@ export class MoodsEffects {
         ofType<MoodSaveSucess>(MoodsActionTypes.MOOD_SAVE_SUCESS),
         map(() => {
             return new MoodCloseModal();
+        })
+    );
+
+
+    @Effect()
+    saveMoodsChangeOrder$: Observable<Action> = this.actions$.pipe(
+        ofType<MoodsSaveChangeOrderRequested>(MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_REQUESTED),
+        map((action: MoodsSaveChangeOrderRequested) => action.payload),
+        switchMap(payload => {
+            return this.moodsService
+                .saveAllChangingOrder(payload.moods)
+                .pipe(
+                    map((moodsReordered) => {
+                        return new MoodsSaveChangeOrderSucess({moods: moodsReordered});
+                    }),
+                    catchError(error => {
+                        console.log(error);
+                        return of(new MoodsSaveChangeOrderFailed(error.message));
+                    })
+                );
+        })
+    );
+
+    @Effect()
+    saveMoodsChangeOrderSucess$: Observable<Action> = this.actions$.pipe(
+        ofType<MoodsSaveChangeOrderSucess>(MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_SUCESS),
+        map(() => {
+            return new MoodsRequestedWithCache();
         })
     );
 

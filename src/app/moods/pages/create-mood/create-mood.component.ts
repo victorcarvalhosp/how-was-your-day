@@ -42,6 +42,7 @@ export class CreateMoodComponent implements OnInit {
             id: [''],
             name: ['', Validators.compose([Validators.required])],
             icon: ['', Validators.required],
+            color: ['', Validators.required],
         });
         this.createValidationMessages();
     }

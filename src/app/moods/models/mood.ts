@@ -4,4 +4,6 @@ export class IMood {
   id: string;
   name: string;
   icon: MoodIconEnum;
+  color: string;
+  order?: number;
 }

@@ -1,115 +1,115 @@
 export enum MoodIconEnum {
-    YAWN = 'YAWN',
-    WINK = 'WINK',
-    SMILE_1 = 'SMILE_1',
-    SMILE = 'SMILE',
-    SURPRISE = 'SURPRISE',
-    SHOCKED = 'SHOCKED',
-    SCEPTIC = 'SCEPTIC',
-    SAD_2 = 'SAD_2',
-    SAD_1 = 'SAD_1',
-    HAPPY_3 = 'HAPPY_3',
-    PAIN = 'PAIN',
-    MUTED = 'MUTED',
-    MEH = 'MEH',
+    ANGRY = 'ANGRY',
+    DIZZY = 'DIZZY',
+    FLUSHED = 'FLUSHED',
+    FROWN = 'FROWN',
+    FROWN_OPEN = 'FROWN_OPEN',
+    GRIMACE = 'GRIMACE',
+    GRIN = 'GRIN',
+    GRIN_ALT = 'GRIN_ALT',
+    GRIN_BEAM = 'GRIN_BEAM',
+    GRIN_BEAM_SWEAT = 'GRIN_BEAM_SWEAT',
+    GRIN_HEARTS = 'GRIN_HEARTS',
+    GRIN_SQUINT = 'GRIN_SQUINT',
+    GRIN_SQUINT_TEARS = 'GRIN_SQUINT_TEARS',
+    GRIN_STARS = 'GRIN_STARS',
+    GRIN_TEARS = 'GRIN_TEARS',
+    GRIN_TONGUE = 'GRIN_TONGUE',
+    GRIN_TONGUE_SQUINT = 'GRIN_TONGUE_SQUINT',
+    GRIN_TONGUE_WINK = 'GRIN_TONGUE_WINK',
+    GRIN_WINK = 'GRIN_WINK',
+    KISS = 'KISS',
+    KISS_BEAM = 'KISS_BEAM',
+    KISS_WINK_HEART = 'KISS_WINK_HEART',
     LAUGH = 'LAUGH',
-    ILL = 'ILL',
-    HAPPY_2 = 'HAPPY_2',
-    HAPPY_1 = 'HAPPY_1',
-    CUTE = 'CUTE',
-    CRYING = 'CRYING',
-    CRAZY = 'CRAZY',
-    COOL = 'COOL',
-    BORED = 'BORED',
-    BLUSH = 'BLUSH',
-    SAD = 'SAD',
-    HAPPY = 'HAPPY',
+    LAUGH_BEAM = 'LAUGH_BEAM',
+    LAUGH_SQUINT = 'LAUGH_SQUINT',
 }
 
 export namespace MoodIconEnum {
 
     export function icon(type: MoodIconEnum) {
         switch (type) {
-            case MoodIconEnum.YAWN:
-                return '001-yawn.svg';
-            case MoodIconEnum.WINK:
-                return '002-wink.svg';
-            case MoodIconEnum.SMILE_1:
-                return '003-smile-1.svg';
-            case MoodIconEnum.SMILE:
-                return '004-smile.svg';
-            case MoodIconEnum.SURPRISE:
-                return '005-surprise.svg';
-            case MoodIconEnum.SHOCKED:
-                return '006-shocked.svg';
-            case MoodIconEnum.SCEPTIC:
-                return '007-sceptic.svg';
-            case MoodIconEnum.SAD_2:
-                return '008-sad-2.svg';
-            case MoodIconEnum.SAD_1:
-                return '009-sad-1.svg';
-            case MoodIconEnum.HAPPY_3:
-                return '010-happy-3.svg';
-            case MoodIconEnum.PAIN:
-                return '011-pain.svg';
-            case MoodIconEnum.MUTED:
-                return '012-muted.svg';
-            case MoodIconEnum.MEH:
-                return '013-meh.svg';
+            case MoodIconEnum.ANGRY:
+                return 'angry';
+            case MoodIconEnum.DIZZY:
+                return 'dizzy';
+            case MoodIconEnum.FLUSHED:
+                return 'flushed';
+            case MoodIconEnum.FROWN:
+                return 'frown';
+            case MoodIconEnum.FROWN_OPEN:
+                return 'frown-open';
+            case MoodIconEnum.GRIMACE:
+                return 'grimace';
+            case MoodIconEnum.GRIN:
+                return 'grin';
+            case MoodIconEnum.GRIN_ALT:
+                return 'grin-alt';
+            case MoodIconEnum.GRIN_BEAM:
+                return 'grin-beam';
+            case MoodIconEnum.GRIN_BEAM_SWEAT:
+                return 'grin-beam-sweat';
+            case MoodIconEnum.GRIN_HEARTS:
+                return 'grin-hearts';
+            case MoodIconEnum.GRIN_SQUINT:
+                return 'grin-squint';
+            case MoodIconEnum.GRIN_SQUINT_TEARS:
+                return 'grin-squint-tears';
+            case MoodIconEnum.GRIN_STARS:
+                return 'grin-stars';
+            case MoodIconEnum.GRIN_TEARS:
+                return 'grin-tears';
+            case MoodIconEnum.GRIN_TONGUE:
+                return 'grin-tongue';
+            case MoodIconEnum.GRIN_TONGUE_SQUINT:
+                return 'grin-tongue-squint';
+            case MoodIconEnum.GRIN_TONGUE_WINK:
+                return 'grin-tongue-wink';
+            case MoodIconEnum.GRIN_WINK:
+                return 'grin-wink';
+            case MoodIconEnum.KISS:
+                return 'kiss';
+            case MoodIconEnum.KISS_BEAM:
+                return 'kiss-beam';
+            case MoodIconEnum.KISS_WINK_HEART:
+                return 'kiss-wink-heart';
             case MoodIconEnum.LAUGH:
-                return '014-laugh.svg';
-            case MoodIconEnum.ILL:
-                return '015-ill.svg';
-            case MoodIconEnum.HAPPY_2:
-                return '016-happy-2.svg';
-            case MoodIconEnum.HAPPY_1:
-                return '017-happy-1.svg';
-            case MoodIconEnum.CUTE:
-                return '018-cute.svg';
-            case MoodIconEnum.CRYING:
-                return '019-crying.svg';
-            case MoodIconEnum.CRAZY:
-                return '020-crazy.svg';
-            case MoodIconEnum.COOL:
-                return '021-cool.svg';
-            case MoodIconEnum.BORED:
-                return '022-bored.svg';
-            case MoodIconEnum.BLUSH:
-                return '023-blush.svg';
-            case MoodIconEnum.SAD:
-                return '024-sad.svg';
-            case MoodIconEnum.HAPPY:
-                return '025-happy.svg';
+                return 'laugh';
+            case MoodIconEnum.LAUGH_BEAM:
+                return 'laugh-beam';
+            case MoodIconEnum.LAUGH_SQUINT:
+                return 'laugh-squint';
         }
     }
 
     export function values(): MoodIconEnum[] {
         return [
-            MoodIconEnum.YAWN,
-            MoodIconEnum.WINK,
-            MoodIconEnum.SMILE_1,
-            MoodIconEnum.SMILE,
-            MoodIconEnum.SURPRISE,
-            MoodIconEnum.SHOCKED,
-            MoodIconEnum.SCEPTIC,
-            MoodIconEnum.SAD_2,
-            MoodIconEnum.SAD_1,
-            MoodIconEnum.HAPPY_3,
-            MoodIconEnum.PAIN,
-            MoodIconEnum.MUTED,
-            MoodIconEnum.MEH,
+            MoodIconEnum.ANGRY,
+            MoodIconEnum.DIZZY,
+            MoodIconEnum.FLUSHED,
+            MoodIconEnum.FROWN,
+            MoodIconEnum.FROWN_OPEN,
+            MoodIconEnum.GRIMACE,
+            MoodIconEnum.GRIN,
+            MoodIconEnum.GRIN_ALT,
+            MoodIconEnum.GRIN_BEAM,
+            MoodIconEnum.GRIN_BEAM_SWEAT,
+            MoodIconEnum.GRIN_HEARTS,
+            MoodIconEnum.GRIN_SQUINT,
+            MoodIconEnum.GRIN_SQUINT_TEARS,
+            MoodIconEnum.GRIN_STARS,
+            MoodIconEnum.GRIN_TEARS,
+            MoodIconEnum.GRIN_TONGUE,
+            MoodIconEnum.GRIN_TONGUE_SQUINT,
+            MoodIconEnum.GRIN_TONGUE_WINK,
+            MoodIconEnum.GRIN_WINK,
+            MoodIconEnum.KISS,
+            MoodIconEnum.KISS_BEAM,
+            MoodIconEnum.KISS_WINK_HEART,
             MoodIconEnum.LAUGH,
-            MoodIconEnum.ILL,
-            MoodIconEnum.HAPPY_2,
-            MoodIconEnum.HAPPY_1,
-            MoodIconEnum.CUTE,
-            MoodIconEnum.CRYING,
-            MoodIconEnum.CRAZY,
-            MoodIconEnum.COOL,
-            MoodIconEnum.BORED,
-            MoodIconEnum.BLUSH,
-            MoodIconEnum.SAD,
-            MoodIconEnum.HAPPY,
+            MoodIconEnum.LAUGH_BEAM,
+            MoodIconEnum.LAUGH_SQUINT,
         ];
     }
 

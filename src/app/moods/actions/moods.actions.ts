@@ -12,7 +12,10 @@ export enum MoodsActionTypes {
     MOOD_CLOSE_MODAL = '[Moods] Close Modal',
     MOOD_SAVE_REQUESTED = '[Moods] Save Request',
     MOOD_SAVE_SUCESS = '[Moods] Save Sucess',
-    MOOD_SAVE_FAILED = '[Moods] Save Failed'
+    MOOD_SAVE_FAILED = '[Moods] Save Failed',
+    MOODS_SAVE_CHANGE_ORDER_REQUESTED = '[Moods] Save Change Order Request',
+    MOODS_SAVE_CHANGE_ORDER_SUCESS = '[Moods] Save Change Order Sucess',
+    MOODS_SAVE_CHANGE_ORDER_FAILED = '[Moods] Save Change Order Failed'
 }
 
 export class MoodsRequestedWithCache implements Action {
@@ -50,12 +53,14 @@ export class MoodSaveRequested implements Action {
 
 export class MoodSaveSucess implements Action {
     readonly type = MoodsActionTypes.MOOD_SAVE_SUCESS;
+
     constructor(public payload: { mood: IMood }) {
     }
 }
 
 export class MoodSaveFailed implements Action {
     readonly type = MoodsActionTypes.MOOD_SAVE_FAILED;
+
     constructor(public payload: { saveErrorMessage: string }) {
     }
 }
@@ -66,7 +71,30 @@ export class MoodsStopLoading implements Action {
 
 export class MoodsRequestFailed implements Action {
     readonly type = MoodsActionTypes.MOODS_REQUEST_FAILED;
+
     constructor(public payload: { saveErrorMessage: string }) {
+    }
+}
+
+export class MoodsSaveChangeOrderRequested implements Action {
+    readonly type = MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_REQUESTED;
+
+    constructor(public payload: { moods: IMood[] }) {
+    }
+}
+
+
+export class MoodsSaveChangeOrderFailed implements Action {
+    readonly type = MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_FAILED;
+
+    constructor(public payload: { saveErrorMessage: string }) {
+    }
+}
+
+export class MoodsSaveChangeOrderSucess implements Action {
+    readonly type = MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_SUCESS;
+
+    constructor(public payload: { moods: IMood[] }) {
     }
 }
 
@@ -81,4 +109,7 @@ export type MoodsActions =
     | MoodSaveSucess
     | MoodSaveFailed
     | MoodsRequestedFromApi
-    | MoodsRequestFailed;
+    | MoodsRequestFailed
+    | MoodsSaveChangeOrderRequested
+    | MoodsSaveChangeOrderFailed
+    | MoodsSaveChangeOrderSucess;
