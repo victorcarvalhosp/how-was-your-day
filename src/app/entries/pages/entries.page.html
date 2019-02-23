@@ -18,14 +18,18 @@
         <ion-card *ngFor="let e of list$ | async">
             <ion-item lines="none">
                 <ion-avatar slot="start">
-                    <fa-icon slot="start" [icon]="['far', (e.mood.icon | moodIcon)]"
+                    <fa-icon [icon]="['far', (e.mood.icon | moodIcon)]"
                              size="2x" [ngStyle]="{color: e.mood.color}"></fa-icon>
                 </ion-avatar>
                 <ion-label>
-                    <h2>{{e.mood.name}}</h2>
-                    <p><ion-card-subtitle *ngFor="let a of e.activities">
-                        <img src="/assets/icons_activities/{{a.icon | activityIcon}}"
-                             style="width: 16px; height: 16px"/>{{a.name}}</ion-card-subtitle></p>
+                    <ion-card-title>{{e.mood.name}}</ion-card-title>
+                    <div class="activities-description">
+                        <ion-chip *ngFor="let a of e.activities">
+                            <ion-avatar><img src="/assets/icons_activities/{{a.icon | activityIcon}}"
+                                             /></ion-avatar>
+                            <ion-label>{{a.name}}</ion-label>
+                        </ion-chip>
+                    </div>
                 </ion-label>
             </ion-item>
             <ion-card-content>

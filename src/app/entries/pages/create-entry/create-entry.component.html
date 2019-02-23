@@ -22,7 +22,7 @@
           <ion-col *ngFor="let m of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
             <label>
               <input [id]="m.id" type="radio" [value]="m" formControlName="mood">
-              <fa-icon slot="start" [icon]="[form.controls['mood'].value === m ?'far':'fas', (m.icon | moodIcon)]"
+              <fa-icon slot="start" [icon]="[form.controls['mood'].value === m ?'fas':'far', (m.icon | moodIcon)]"
                        size="2x" [ngStyle]="{color: m.color}"></fa-icon>
             </label>
           </ion-col>
@@ -32,11 +32,13 @@
       <ion-grid *ngIf="form.controls['mood'].value">
         <ion-row justify-content-center>
           <ng-container *ngIf="activities$ | async as activities">
-          <ion-col *ngFor="let a of form.controls['activities'].controls; let i = index" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
-            <label formArrayName="activities">
-              {{activities[i].name}}
-              <input [id]="a.id" type="checkbox" [value]="a.id" [formControlName]="i">
-              <img src="/assets/icons_activities/{{activities[i].icon | activityIcon}}" style="width: 24px; height: 24px"/>
+          <ion-col *ngFor="let a of form.controls['activities'].controls; let i = index"  sizeSm="2" sizeXs="3" align-self-center>
+            <label formArrayName="activities" class="whatever">
+              <input [id]="a.id" type="checkbox" [value]="a.id" [formControlName]="i" />
+              <div class="whatever">
+                <img src="/assets/icons_activities/{{activities[i].icon | activityIcon}}" style="width: 24px; height: 24px"/>
+                <span>{{activities[i].name}}</span>
+              </div>
             </label>
           </ion-col>
           </ng-container>

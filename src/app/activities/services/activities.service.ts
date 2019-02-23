@@ -5,7 +5,7 @@ import {IActivity} from '../models/activity';
 import {getLoggedUserUid} from '../../auth/selectors/auth.selectors';
 import {from, Observable} from 'rxjs';
 import {AppState} from '../../reducers';
-import {take} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -16,13 +16,13 @@ export class ActivitiesService {
 
     }
 
-    save(activity: IActivity): Observable<void> {
+    save(activity: IActivity): Observable<IActivity> {
         if (activity.id) {
-            return from(this.db.collection(this.getPath()).doc(activity.id).update(activity));
+            return from(this.db.collection(this.getPath()).doc(activity.id).update(activity)).pipe(map(() => activity));
         } else {
             const idBefore = this.db.createId();
             const activityWithId: IActivity = {...activity, id: idBefore};
-            return from(this.db.collection(this.getPath()).doc(idBefore).set(activityWithId));
+            return from(this.db.collection(this.getPath()).doc(idBefore).set(activityWithId)).pipe(map(() => activityWithId));
         }
     }
 

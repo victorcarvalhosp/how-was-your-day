@@ -35,19 +35,19 @@ export class MoodsComponent implements OnInit {
         let moods: IMood[] = [];
 
         this.list$.pipe(take(1)).subscribe((res: IMood[]) => {
-            console.log(res);
-            moods = res;
+            moods = [...res];
+            // Refactoring later to do all this logic on service
             const itemMove = moods.splice(e.detail.from, 1)[0];
-            const moodsReordered = moods.splice(e.detail.to, 0, itemMove);
-            this.store.dispatch(new MoodsSaveChangeOrderRequested({moods: moodsReordered}));
-            // // @ts-ignore
-            // this.list$ = from(moods);
+            moods.splice(e.detail.to, 0, itemMove);
+            console.log('MOODS');
+            console.log(moods);
+            this.store.dispatch(new MoodsSaveChangeOrderRequested({moods: moods}));
             e.detail.complete();
         });
     }
 
     presentModal() {
-        this.store.dispatch(new MoodOpenModal({mood: {id: null, name: null, icon: null, color: ''}}));
+        this.store.dispatch(new MoodOpenModal({mood: {id: null, name: null, icon: null, color: '#9e9e9e'}}));
     }
 
     editMood(mood: IMood) {

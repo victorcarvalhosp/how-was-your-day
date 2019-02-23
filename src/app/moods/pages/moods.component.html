@@ -16,7 +16,7 @@
         <ion-list>
             <ion-reorder-group disabled="false" (ionItemReorder)="moveMood($event)">
                 <ion-spinner *ngIf="loading$ | async"></ion-spinner>
-                <ion-item *ngFor="let m of list$ | async" >
+                <ion-item *ngFor="let m of list$ | async" (click)="editMood(m)">
                     <fa-icon slot="start" [icon]="['far', (m.icon | moodIcon)]"
                              size="2x" [ngStyle]="{color: m.color}"></fa-icon>
                     <ion-label>{{m.name}}</ion-label>

@@ -112,8 +112,8 @@ export class ActivitiesEffects {
             return this.activitiesService
                 .save(payload.activity)
                 .pipe(
-                    map(() => {
-                        return new ActivitySaveSucess({activity: payload.activity});
+                    map((activityWithId) => {
+                        return new ActivitySaveSucess({activity: activityWithId});
                     }),
                     catchError(error => {
                         console.log(error);

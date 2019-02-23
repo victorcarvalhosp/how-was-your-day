@@ -2,3 +2,20 @@
   max-height: 35vh;
   overflow: hidden;
 }
+
+.activities-description{
+  display: inline;
+}
+
+ion-chip ion-label{
+  font-size: 12px;
+}
+
+ion-chip{
+  height: 24px;
+
+  ion-avatar{
+    width: 18px;
+    height: 18px;
+  }
+}

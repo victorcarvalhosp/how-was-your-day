@@ -18,7 +18,7 @@
     <ion-content padding>
         <form [formGroup]="form" [appConnectForm]="mood">
             <ion-item inset>
-                <ion-label position="floating">Name</ion-label>
+                <ion-label position="floating">Mood name:</ion-label>
                 <ion-input id="identifier" type="text" formControlName="name"></ion-input>
             </ion-item>
             <div class="error-hint">
@@ -30,7 +30,7 @@
                         <label>
                             <input [id]="i" type="radio" [value]="i" formControlName="icon">
                             <fa-icon [icon]="[form.controls['icon'].value === i ? 'fas' : 'far', (i | moodIcon)]"
-                                     size="2x" [ngStyle]="{color: form.controls['color'].value}"></fa-icon>
+                                     size="2x" [ngStyle]="{color: form.controls['icon'].value === i ? form.controls['color'].value : '#cfcfcf'}"></fa-icon>
                             <!--<img src="/assets/icons_moods/{{i | moodIcon}}" style="width: 24px; height: 24px"/>-->
                         </label>
                     </ion-col>

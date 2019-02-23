@@ -126,6 +126,8 @@ export class MoodsEffects {
                 .saveAllChangingOrder(payload.moods)
                 .pipe(
                     map((moodsReordered) => {
+                        console.log('Está vindo certo?');
+                        console.log(moodsReordered);
                         return new MoodsSaveChangeOrderSucess({moods: moodsReordered});
                     }),
                     catchError(error => {
@@ -136,13 +138,13 @@ export class MoodsEffects {
         })
     );
 
-    @Effect()
-    saveMoodsChangeOrderSucess$: Observable<Action> = this.actions$.pipe(
-        ofType<MoodsSaveChangeOrderSucess>(MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_SUCESS),
-        map(() => {
-            return new MoodsRequestedWithCache();
-        })
-    );
+    // @Effect()
+    // saveMoodsChangeOrderSucess$: Observable<Action> = this.actions$.pipe(
+    //     ofType<MoodsSaveChangeOrderSucess>(MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_SUCESS),
+    //     map(() => {
+    //         return new MoodsRequestedWithCache();
+    //     })
+    // );
 
 
     // @Effect()

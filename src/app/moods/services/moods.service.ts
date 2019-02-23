@@ -16,11 +16,15 @@ export class MoodsService {
     }
 
     saveAllChangingOrder(moods: IMood[]): Observable<IMood[]> {
+        // This is wrong, because I want to return the moods that this.save return...
+        const reorderedMoods: IMood[] = [];
         return new Observable<IMood[]>(observer => {
             moods.forEach((mood, index) => {
                 const reorderedMood = {...mood, order: index};
-                return this.save(reorderedMood);
+                this.save(reorderedMood).pipe(map(res => res))
+                reorderedMoods.push(reorderedMood);
             });
+            observer.next(reorderedMoods);
         });
     }
 

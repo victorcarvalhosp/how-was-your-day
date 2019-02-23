@@ -59,8 +59,11 @@ export class CreateEntryComponent implements OnInit {
 
         this.activities$.pipe(take(2)).subscribe(res => {
             this.activities = res;
-            const controls = this.activities.map(c => new FormControl(false));
-            this.form.setControl('activities', this.fb.array(this.activities || []));
+            const controls: FormControl[] = this.activities.map(c => new FormControl(false));
+            // this.form.setControl('activities', this.fb.array(this.activities || []));
+            this.form.setControl('activities', this.fb.array(controls));
+
+
             console.log(this.form.controls['activities']);
             // controls[0].setValue(true);
         });
