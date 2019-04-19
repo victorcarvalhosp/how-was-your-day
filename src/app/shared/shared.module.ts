@@ -15,7 +15,6 @@ import {ColorPickerComponent} from './components/color-picker/color-picker.compo
         CommonModule,
         IonicModule,
         FontAwesomeModule,
-
     ],
     exports: [ResponsiveAreaComponent, ConnectFormDirectiveDirective, FontAwesomeModule, ColorPickerComponent]
 })

@@ -33,6 +33,25 @@ export class CreateEntryComponent implements OnInit {
     private activities: IActivity[];
 
 
+
+
+    datePickerObj: any = {
+        toDate: new Date(), // default null
+        showTodayButton: false, // default true
+        closeOnSelect: true, // default false
+        // disableWeekDays: [4], // default []
+        mondayFirst: true, // default false
+        setLabel: 'S',  // default 'Set'
+        todayLabel: 'T', // default 'Today'
+        closeLabel: 'C', // default 'Close'
+        titleLabel: 'Select a Date', // default null
+        monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+        weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+        dateFormat: 'DD/MM/YYYY', // default dd MMM yyyy
+        clearButton : false , // default true
+    };
+
+
     constructor(private store: Store<AppState>,
                 private fb: FormBuilder) {
     }
@@ -52,7 +71,7 @@ export class CreateEntryComponent implements OnInit {
         this.form = this.fb.group({
             id: [''],
             mood: [null, Validators.required],
-            date: [new Date(), Validators.required],
+            date: ['', Validators.required],
             activities: new FormArray([], minSelectedCheckboxes(1))
         });
         this.createValidationMessages();
@@ -62,10 +81,6 @@ export class CreateEntryComponent implements OnInit {
             const controls: FormControl[] = this.activities.map(c => new FormControl(false));
             // this.form.setControl('activities', this.fb.array(this.activities || []));
             this.form.setControl('activities', this.fb.array(controls));
-
-
-            console.log(this.form.controls['activities']);
-            // controls[0].setValue(true);
         });
     }
 
@@ -90,9 +105,7 @@ export class CreateEntryComponent implements OnInit {
         const selectedOrderIds = this.form.value.activities
             .map((v, i) => v ? this.activities[i] : null)
             .filter(v => v !== null);
-        console.log(this.form.value);
-        console.log(selectedOrderIds);
-        const entry: IEntry = {...this.form.value, activities: selectedOrderIds}
+        const entry: IEntry = {...this.form.value, activities: selectedOrderIds, date: new Date(this.form.controls['date'].value)}
         this.store.dispatch(new EntrySaveRequested({entry: entry}));
     }
 

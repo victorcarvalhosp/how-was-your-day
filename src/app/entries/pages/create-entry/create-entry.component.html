@@ -17,6 +17,18 @@
   </ion-header>
   <ion-content padding>
     <form [formGroup]="form" [appConnectForm]="entry">
+      <!--<ion-item>-->
+        <!--<ion-label position="floating">Date</ion-label>-->
+        <!--<ion-datetime formControlName="date" display-format="DD/MM/YYYY" picker-format="DD MMMM YYYY"></ion-datetime>-->
+      <!--</ion-item>-->
+
+      <!--<li-ionic4-datepicker formControlName="date"-->
+                            <!--[inputDateConfig]="datePickerObj"></li-ionic4-datepicker>-->
+
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime formControlName="date"></ion-datetime>
+      </ion-item>
       <ion-grid>
         <ion-row justify-content-center>
           <ion-col *ngFor="let m of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
