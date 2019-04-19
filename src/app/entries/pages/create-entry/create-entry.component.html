@@ -24,30 +24,39 @@
 
       <!--<li-ionic4-datepicker formControlName="date"-->
                             <!--[inputDateConfig]="datePickerObj"></li-ionic4-datepicker>-->
-
-      <ion-item>
-        <ion-label>Date</ion-label>
-        <ion-datetime formControlName="date"></ion-datetime>
+      <ion-item inset>
+        <ion-label position="floating">Date:</ion-label>
+        <ion-datetime formControlName="entryDate"></ion-datetime>
       </ion-item>
+
+      <div class="ion-text-center ion-padding-top">
+        <h2>What's your mood?</h2>
+      </div>
       <ion-grid>
         <ion-row justify-content-center>
-          <ion-col *ngFor="let m of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
+          <ion-col *ngFor="let mood of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
             <label>
-              <input [id]="m.id" type="radio" [value]="m" formControlName="mood">
-              <fa-icon slot="start" [icon]="[form.controls['mood'].value === m ?'fas':'far', (m.icon | moodIcon)]"
-                       size="2x" [ngStyle]="{color: m.color}"></fa-icon>
+              <input [id]="mood.id" type="radio" [value]="mood" formControlName="mood">
+              <fa-icon slot="start" [icon]="[form.controls['mood'].value === mood ?'fas':'far', (mood.icon | moodIcon)]"
+                       size="2x" [ngStyle]="{opacity: form.controls['mood'].value === mood ? '1' : '0.5', color: mood.color}"></fa-icon>
             </label>
           </ion-col>
         </ion-row>
       </ion-grid>
+      <div class="ion-text-center">
+        <h3>{{form.controls['mood']?.value?.name}}</h3>
+      </div>
 
       <ion-grid *ngIf="form.controls['mood'].value">
+        <div class="ion-text-center ion-padding-top">
+          <h2>what activities did you do?</h2>
+        </div>
         <ion-row justify-content-center>
           <ng-container *ngIf="activities$ | async as activities">
           <ion-col *ngFor="let a of form.controls['activities'].controls; let i = index"  sizeSm="2" sizeXs="3" align-self-center>
-            <label formArrayName="activities" class="whatever">
+            <label formArrayName="activities">
               <input [id]="a.id" type="checkbox" [value]="a.id" [formControlName]="i" />
-              <div class="whatever">
+              <div class="select-icon">
                 <img src="/assets/icons_activities/{{activities[i].icon | activityIcon}}" style="width: 24px; height: 24px"/>
                 <span>{{activities[i].name}}</span>
               </div>

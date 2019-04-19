@@ -5,6 +5,7 @@ import {AppState} from '../../reducers';
 import {EntriesRequested, EntryOpenModal} from '../actions/entries.actions';
 import {isEntriesLoading, selectAllEntries} from '../selectors/entries.selectors';
 import {IEntry} from '../models/entry';
+import { firestore } from 'firebase';
 
 @Component({
     selector: 'app-entries',
@@ -26,7 +27,7 @@ export class EntriesPage implements OnInit {
     }
 
     presentModal() {
-        this.store.dispatch(new EntryOpenModal({entry: {id: null, name: null, date: new Date()}}));
+        this.store.dispatch(new EntryOpenModal({entry: {id: null, name: null, date: firestore.Timestamp.now()}}));
     }
 
     editEntry(entry: IEntry) {

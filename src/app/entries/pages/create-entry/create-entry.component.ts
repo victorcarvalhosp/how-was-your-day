@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {Validations} from '../../../shared/validators/validations';
 import {Observable} from 'rxjs';
 import {IMood} from '../../../moods/models/mood';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../../reducers';
-import {MoodCloseModal, MoodSaveRequested, MoodsRequestedWithCache} from '../../../moods/actions/moods.actions';
+import {MoodCloseModal, MoodsRequestedWithCache} from '../../../moods/actions/moods.actions';
 import {isEntryLoadingSave, selectEntry} from '../../selectors/entries.selectors';
 import {IEntry} from '../../models/entry';
 import {selectAllMoods} from '../../../moods/selectors/moods.selectors';
@@ -13,7 +13,9 @@ import {IActivity} from '../../../activities/models/activity';
 import {ActivitiesRequestedWithCache} from '../../../activities/actions/activities.actions';
 import {selectAllActivities} from '../../../activities/selectors/activities.selectors';
 import {EntrySaveRequested} from '../../actions/entries.actions';
-import {map, switchMap, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
+import {firestore} from 'firebase';
+
 
 @Component({
     selector: 'app-create-entry',
@@ -31,26 +33,6 @@ export class CreateEntryComponent implements OnInit {
     moods$: Observable<IMood[]>;
     activities$: Observable<IActivity[]>;
     private activities: IActivity[];
-
-
-
-
-    datePickerObj: any = {
-        toDate: new Date(), // default null
-        showTodayButton: false, // default true
-        closeOnSelect: true, // default false
-        // disableWeekDays: [4], // default []
-        mondayFirst: true, // default false
-        setLabel: 'S',  // default 'Set'
-        todayLabel: 'T', // default 'Today'
-        closeLabel: 'C', // default 'Close'
-        titleLabel: 'Select a Date', // default null
-        monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-        weeksList: ["S", "M", "T", "W", "T", "F", "S"],
-        dateFormat: 'DD/MM/YYYY', // default dd MMM yyyy
-        clearButton : false , // default true
-    };
-
 
     constructor(private store: Store<AppState>,
                 private fb: FormBuilder) {
@@ -71,7 +53,7 @@ export class CreateEntryComponent implements OnInit {
         this.form = this.fb.group({
             id: [''],
             mood: [null, Validators.required],
-            date: ['', Validators.required],
+            entryDate: [new Date().toISOString(), Validators.required],
             activities: new FormArray([], minSelectedCheckboxes(1))
         });
         this.createValidationMessages();
@@ -87,10 +69,10 @@ export class CreateEntryComponent implements OnInit {
     private createValidationMessages() {
         this.validations = new Validations(
             {
-                'name': {
+                'mood': {
                     'required': 'Name is required.',
                 },
-                'icon': {
+                'entryDate': {
                     'required': 'Icon is required.',
                 }
             }
@@ -105,7 +87,8 @@ export class CreateEntryComponent implements OnInit {
         const selectedOrderIds = this.form.value.activities
             .map((v, i) => v ? this.activities[i] : null)
             .filter(v => v !== null);
-        const entry: IEntry = {...this.form.value, activities: selectedOrderIds, date: new Date(this.form.controls['date'].value)}
+        const entry: IEntry = {...this.form.value, activities: selectedOrderIds,
+            date: firestore.Timestamp.fromDate(new Date(this.form.controls['entryDate'].value))}
         this.store.dispatch(new EntrySaveRequested({entry: entry}));
     }
 

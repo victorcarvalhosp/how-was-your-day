@@ -3,10 +3,11 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Store} from '@ngrx/store';
 import {from, Observable} from 'rxjs';
 import {AppState} from '../../reducers';
-import {take} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {IActivity} from '../../activities/models/activity';
 import {IEntry} from '../models/entry';
 import {IPeriod} from '../../period/models/period';
+import {toDate} from '@angular/common/src/i18n/format_date';
 
 @Injectable({
     providedIn: 'root'

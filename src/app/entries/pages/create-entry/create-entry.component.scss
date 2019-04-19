@@ -31,7 +31,7 @@
   height: 0;
 }
 
-.whatever{
+.select-icon{
   font-size: 10px;
   text-align: center;
   span {
@@ -40,11 +40,14 @@
 }
 
 /* IMAGE STYLES */
-[type=checkbox] + .whatever {
+[type=checkbox] + .select-icon {
   cursor: pointer;
+  opacity: 0.5;
 }
 
 /* CHECKED STYLES */
-[type=checkbox]:checked + .whatever {
-  outline: 2px solid #f00;
+[type=checkbox]:checked + .select-icon {
+  outline: 6px solid var(--ion-color-light-shade);
+  background: var(--ion-color-light-shade);
+  opacity: 1;
 }
