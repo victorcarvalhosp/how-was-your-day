@@ -20,9 +20,6 @@
   outline: 2px solid #f00;
 }
 
-
-
-
 /* HIDE RADIO */
 [type=checkbox] {
   position: absolute;
@@ -34,6 +31,7 @@
 .select-icon{
   font-size: 10px;
   text-align: center;
+  height: 48px;
   span {
     display: block;
   }

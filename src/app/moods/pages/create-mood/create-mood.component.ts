@@ -4,8 +4,8 @@ import {AppState} from '../../../reducers';
 import {Observable} from 'rxjs';
 import {IMood} from '../../models/mood';
 import {isMoodsLoading, isMoodLoadingSave, selectMood} from '../../selectors/moods.selectors';
-import {MoodCloseModal, MoodOpenModal, MoodSaveRequested} from '../../actions/moods.actions';
-import {ModalController} from '@ionic/angular';
+import {MoodCloseModal, MoodOpenAlertRemove, MoodOpenModal, MoodRemoveRequested, MoodSaveRequested} from '../../actions/moods.actions';
+import {AlertController, ModalController} from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Validations} from '../../../shared/validators/validations';
 import {MoodIconEnum} from '../../enums/mood-icon';
@@ -72,6 +72,10 @@ export class CreateMoodComponent implements OnInit {
     getError(name: string) {
         const control = this.form.get(name);
         return this.validations.getControlErrors(control);
+    }
+
+    presentRemoveAlertConfirm(mood: IMood) {
+        this.store.dispatch(new MoodOpenAlertRemove({mood: mood}));
     }
 
 }

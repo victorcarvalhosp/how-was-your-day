@@ -1,9 +1,5 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>
-            Tab One
-        </ion-title>
-    </ion-toolbar>
+<ion-header no-border>
+    <app-period></app-period>
 </ion-header>
 
 <ion-content>
@@ -13,7 +9,6 @@
     </ion-refresher>
 
     <app-responsive-area>
-        <app-period></app-period>
         <ion-spinner *ngIf="loading$ | async"></ion-spinner>
         <ion-card *ngFor="let e of list$ | async">
             <ion-item lines="none">

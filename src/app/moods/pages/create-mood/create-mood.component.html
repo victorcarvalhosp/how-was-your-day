@@ -30,7 +30,8 @@
                         <label>
                             <input [id]="i" type="radio" [value]="i" formControlName="icon">
                             <fa-icon [icon]="[form.controls['icon'].value === i ? 'fas' : 'far', (i | moodIcon)]"
-                                     size="2x" [ngStyle]="{color: form.controls['icon'].value === i ? form.controls['color'].value : '#cfcfcf'}"></fa-icon>
+                                     size="2x"
+                                     [ngStyle]="{color: form.controls['icon'].value === i ? form.controls['color'].value : '#cfcfcf'}"></fa-icon>
                             <!--<img src="/assets/icons_moods/{{i | moodIcon}}" style="width: 24px; height: 24px"/>-->
                         </label>
                     </ion-col>
@@ -40,6 +41,12 @@
             <ion-label>Color:</ion-label>
             <app-color-picker formControlName="color"></app-color-picker>
 
+            <div class="ion-text-center" *ngIf="mood.id">
+                <ion-button *ngIf="!(loadingSave$ | async)" fill="clear" color="danger" (click)="presentRemoveAlertConfirm(mood)">
+                    <ion-icon slot="start" name="trash"></ion-icon>
+                    Remove this mood
+                </ion-button>
+            </div>
 
         </form>
     </ion-content>

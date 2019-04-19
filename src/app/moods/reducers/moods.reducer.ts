@@ -1,4 +1,3 @@
-import {Action} from '@ngrx/store';
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {IMood} from '../models/mood';
 import {MoodsActions, MoodsActionTypes} from '../actions/moods.actions';
@@ -64,6 +63,16 @@ export function moodsReducer(state = initialMoodsState, action: MoodsActions): M
             return moodsAdapter.upsertMany(action.payload.moods, {...state, loadingSave: false, saveErrorMessage: ''});
         case MoodsActionTypes.MOODS_SAVE_CHANGE_ORDER_FAILED:
             return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
+        case MoodsActionTypes.MOOD_REMOVE_REQUESTED:
+            return {...state, loadingSave: true};
+        case MoodsActionTypes.MOOD_REMOVE_SUCESS:
+            return moodsAdapter.removeOne(action.payload.id, {...state, loadingSave: false, saveErrorMessage: ''});
+        case MoodsActionTypes.MOOD_REMOVE_FAILED:
+            return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
+        case MoodsActionTypes.MOOD_OPEN_ALERT_REMOVE:
+            return {...state, mood: action.payload.mood};
+        case MoodsActionTypes.MOOD_CLOSE_ALERT_REMOVE:
+            return {...state};
         default:
             return state;
     }

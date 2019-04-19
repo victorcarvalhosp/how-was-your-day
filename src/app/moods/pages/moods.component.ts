@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {from, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {isMoodsLoading, selectAllMoods} from '../selectors/moods.selectors';
 import {IMood} from '../models/mood';
 import {MoodOpenModal, MoodsRequestedFromApi, MoodsRequestedWithCache, MoodsSaveChangeOrderRequested} from '../actions/moods.actions';
 import {take} from 'rxjs/operators';
-import {fromArray} from 'rxjs/internal/observable/fromArray';
 
 @Component({
     selector: 'app-moods',

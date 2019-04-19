@@ -3,8 +3,9 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {AppState} from '../../reducers';
 import {
+    MoodCloseAlertRemove,
     MoodCloseModal,
-    MoodOpenModal,
+    MoodOpenModal, MoodRemoveFailed, MoodRemoveRequested, MoodRemoveSucess,
     MoodsActionTypes,
     MoodSaveFailed,
     MoodSaveRequested,
@@ -20,7 +21,7 @@ import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {MoodsService} from '../services/moods.service';
 import {Observable, of} from 'rxjs';
 import {CreateMoodComponent} from '../pages/create-mood/create-mood.component';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 
 
@@ -29,7 +30,8 @@ export class MoodsEffects {
 
 
     constructor(private actions$: Actions, private store: Store<AppState>, private moodsService: MoodsService,
-                private modalController: ModalController, private router: Router) {
+                private modalController: ModalController, private router: Router, public alertController: AlertController,
+                public toastController: ToastController) {
     }
 
 
@@ -111,7 +113,18 @@ export class MoodsEffects {
     @Effect()
     saveMoodSucess$: Observable<Action> = this.actions$.pipe(
         ofType<MoodSaveSucess>(MoodsActionTypes.MOOD_SAVE_SUCESS),
-        map(() => {
+        map((action) => {
+            this.toastController.create({
+                message: `Mood ${action.payload.mood.name} saved.`,
+                duration: 2000,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log('Close Toast clicked');
+                        }
+                    }]
+            }).then(toast => toast.present());
             return new MoodCloseModal();
         })
     );
@@ -135,6 +148,82 @@ export class MoodsEffects {
                         return of(new MoodsSaveChangeOrderFailed(error.message));
                     })
                 );
+        })
+    );
+
+    @Effect({dispatch: false})
+    openMoodAlertRemove$ = this.actions$
+        .pipe(
+            ofType<MoodOpenModal>(MoodsActionTypes.MOOD_OPEN_ALERT_REMOVE),
+            map((action) => {
+
+                this.alertController.create({
+                    header: 'Confirm!',
+                    message: `Remove <strong>${action.payload.mood.name}</strong>!!!`,
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            cssClass: 'secondary',
+                            handler: (blah) => {
+                                console.log('Confirm Cancel: blah');
+                            }
+                        }, {
+                            text: 'Remove',
+                            handler: () => {
+                                this.store.dispatch(new MoodRemoveRequested({id: action.payload.mood.id}));
+                                console.log('Confirm Okay');
+                            }
+                        }
+                    ]
+                }).then(alert => alert.present());
+            })
+        );
+
+    @Effect({dispatch: false})
+    closeMoodAlertRemove$ = this.actions$
+        .pipe(
+            ofType<MoodCloseModal>(MoodsActionTypes.MOOD_CLOSE_ALERT_REMOVE),
+            tap(action => {
+                this.alertController.dismiss();
+            })
+        );
+
+    @Effect()
+    removeMood$: Observable<Action> = this.actions$.pipe(
+        ofType<MoodRemoveRequested>(MoodsActionTypes.MOOD_REMOVE_REQUESTED),
+        map((action: MoodRemoveRequested) => action.payload),
+        switchMap(payload => {
+            return this.moodsService
+                .remove(payload.id)
+                .pipe(
+                    map(() => {
+                        return new MoodRemoveSucess({id: payload.id});
+                    }),
+                    catchError(error => {
+                        console.log(error);
+                        return of(new MoodRemoveFailed(error.message));
+                    })
+                );
+        })
+    );
+
+    @Effect()
+    removeMoodSucess$: Observable<Action> = this.actions$.pipe(
+        ofType<MoodRemoveSucess>(MoodsActionTypes.MOOD_REMOVE_SUCESS),
+        map(() => {
+            this.toastController.create({
+                message: 'Mood removed.',
+                duration: 2000,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log('Close Toast clicked');
+                        }
+                    }]
+            }).then(toast => toast.present());
+            return new MoodCloseModal();
         })
     );
 

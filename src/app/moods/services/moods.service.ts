@@ -39,6 +39,10 @@ export class MoodsService {
         }
     }
 
+    remove(id: string): Observable<void> {
+        return from(this.db.collection(this.getPath()).doc(id).delete());
+    }
+
     findAll(): Observable<IMood[]> {
       return  this.db.collection<IMood>(this.getPath()).valueChanges().pipe(take(1));
     }

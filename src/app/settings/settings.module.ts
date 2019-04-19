@@ -5,6 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
+import {PeriodModule} from '../period/period.module';
 
 
 export const settingsRoutes: Routes = [
