@@ -61,9 +61,15 @@ export class CreateEntryComponent implements OnInit {
         this.activities$.pipe(take(2)).subscribe(res => {
             this.activities = res;
             const controls: FormControl[] = this.activities.map(c => new FormControl(false));
-            // this.form.setControl('activities', this.fb.array(this.activities || []));
             this.form.setControl('activities', this.fb.array(controls));
+            console.log(this.form.controls['activities'].value);
+            this.entry$.pipe(take(1)).subscribe((e: IEntry) => {
+                this.form.patchValue(e);
+                this.form.markAsPristine();
+            });
         });
+
+
     }
 
     private createValidationMessages() {
@@ -83,6 +89,10 @@ export class CreateEntryComponent implements OnInit {
         this.store.dispatch(new MoodCloseModal());
     }
 
+    onSelectionChange(mood: IMood) {
+        this.form.controls['mood'].setValue(mood);
+    }
+
     save() {
         const selectedOrderIds = this.form.value.activities
             .map((v, i) => v ? this.activities[i] : null)
@@ -97,6 +107,8 @@ export class CreateEntryComponent implements OnInit {
         return this.validations.getControlErrors(control);
     }
 }
+
+
 
 function minSelectedCheckboxes(min = 1) {
     const validator: ValidatorFn = (formArray: FormArray) => {

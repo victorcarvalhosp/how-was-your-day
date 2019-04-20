@@ -158,8 +158,8 @@ export class MoodsEffects {
             map((action) => {
 
                 this.alertController.create({
-                    header: 'Confirm!',
-                    message: `Remove <strong>${action.payload.mood.name}</strong>!!!`,
+                    header: 'Remove mood!',
+                    message: `Are you sure you want to remove <strong>${action.payload.mood.name}</strong> mood?`,
                     buttons: [
                         {
                             text: 'Cancel',
@@ -169,7 +169,7 @@ export class MoodsEffects {
                                 console.log('Confirm Cancel: blah');
                             }
                         }, {
-                            text: 'Remove',
+                            text: 'Yes, remove',
                             handler: () => {
                                 this.store.dispatch(new MoodRemoveRequested({id: action.payload.mood.id}));
                                 console.log('Confirm Okay');

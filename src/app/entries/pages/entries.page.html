@@ -10,7 +10,7 @@
 
     <app-responsive-area>
         <ion-spinner *ngIf="loading$ | async"></ion-spinner>
-        <ion-card *ngFor="let e of list$ | async">
+        <ion-card *ngFor="let e of list$ | async" (click)="editEntry(e)">
             <ion-item lines="none">
                 <fa-icon [icon]="['far', (e.mood.icon | moodIcon)]" size="2x" class="ion-padding-top ion-padding-end"
                          [ngStyle]="{color: e.mood.color}"></fa-icon>

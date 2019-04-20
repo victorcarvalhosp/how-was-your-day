@@ -6,6 +6,7 @@ import {EntriesRequested, EntryOpenModal} from '../actions/entries.actions';
 import {isEntriesLoading, selectAllEntries} from '../selectors/entries.selectors';
 import {IEntry} from '../models/entry';
 import { firestore } from 'firebase';
+import {ActivitiesRequestedFromApi} from '../../activities/actions/activities.actions';
 
 @Component({
     selector: 'app-entries',
@@ -35,9 +36,8 @@ export class EntriesPage implements OnInit {
     }
 
     doRefresh(event) {
-        console.log('Begin async operation');
         this.store.dispatch(new EntriesRequested());
-        console.log('Async operation has ended');
+        event.target.complete();
     }
 
 }

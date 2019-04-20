@@ -36,9 +36,9 @@
         <ion-row justify-content-center>
           <ion-col *ngFor="let mood of moods$ | async" sizeMd="1" sizeSm="2" sizeXs="2" align-self-center>
             <label>
-              <input [id]="mood.id" type="radio" [value]="mood" formControlName="mood">
-              <fa-icon slot="start" [icon]="[form.controls['mood'].value === mood ?'fas':'far', (mood.icon | moodIcon)]"
-                       size="2x" [ngStyle]="{opacity: form.controls['mood'].value === mood ? '1' : '0.5', color: mood.color}"></fa-icon>
+              <input [id]="mood.id" type="radio" [value]="mood.id" formControlName="mood" (change)="onSelectionChange(mood)">
+              <fa-icon slot="start" [icon]="[form.controls['mood']?.value?.id === mood.id ?'fas':'far', (mood.icon | moodIcon)]"
+                       size="2x" [ngStyle]="{opacity: form.controls['mood']?.value?.id === mood.id ? '1' : '0.5', color: mood.color}"></fa-icon>
             </label>
           </ion-col>
         </ion-row>
@@ -47,14 +47,14 @@
         <h3>{{form.controls['mood']?.value?.name}}</h3>
       </div>
 
-      <ion-grid *ngIf="form.controls['mood'].value">
+      <ion-grid *ngIf="form.controls['mood']?.value?.id">
         <div class="ion-text-center ion-padding-top">
           <h2>What activities did you do?</h2>
         </div>
         <ion-row justify-content-center>
-          <ng-container *ngIf="activities$ | async as activities">
+          <ng-container *ngIf="(activities$ | async) as activities2">
           <ion-col *ngFor="let a of form.controls['activities'].controls; let i = index"  sizeSm="2" sizeXs="3" align-self-center>
-            <label formArrayName="activities" class="select-icon">
+              <label formArrayName="activities" class="select-icon">
               <input [id]="a.id" type="checkbox" [value]="a.id" [formControlName]="i" />
               <div class="select-icon">
                 <img src="/assets/icons_activities/{{activities[i].icon | activityIcon}}" style="width: 24px; height: 24px"/>
