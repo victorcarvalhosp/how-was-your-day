@@ -24,6 +24,18 @@ export enum MoodIconEnum {
     LAUGH = 'LAUGH',
     LAUGH_BEAM = 'LAUGH_BEAM',
     LAUGH_SQUINT = 'LAUGH_SQUINT',
+    LAUGH_WINK = 'LAUGH_WINK',
+    MEH = 'MEH',
+    MEH_BLANK = 'MEH_BLANK',
+    MEH_ROLLING_EYES = 'MEH_ROLLING_EYES',
+    SAD_CRY = 'SAD_CRY',
+    SAD_TEAR = 'SAD_TEAR',
+    SMILE = 'SMILE',
+    SMILE_BEAM = 'SMILE_BEAM',
+    SMILE_WINK = 'SMILE_WINK',
+    SURPRISE = 'SURPRISE',
+    TIRED = 'TIRED',
+
 }
 
 export namespace MoodIconEnum {
@@ -80,6 +92,28 @@ export namespace MoodIconEnum {
                 return 'laugh-beam';
             case MoodIconEnum.LAUGH_SQUINT:
                 return 'laugh-squint';
+            case MoodIconEnum.LAUGH_WINK:
+                return 'laugh-wink';
+            case MoodIconEnum.MEH:
+                return 'meh';
+            case MoodIconEnum.MEH_BLANK:
+                return 'meh-blank';
+            case MoodIconEnum.MEH_ROLLING_EYES:
+                return 'meh-rolling-eyes';
+            case MoodIconEnum.SAD_CRY:
+                return 'sad-cry';
+            case MoodIconEnum.SAD_TEAR:
+                return 'sad-tear';
+            case MoodIconEnum.SMILE:
+                return 'smile';
+            case MoodIconEnum.SMILE_BEAM:
+                return 'smile-beam';
+            case MoodIconEnum.SMILE_WINK:
+                return 'smile-wink';
+            case MoodIconEnum.SURPRISE:
+                return 'surprise';
+            case MoodIconEnum.TIRED:
+                return 'tired';
         }
     }
 
@@ -110,6 +144,17 @@ export namespace MoodIconEnum {
             MoodIconEnum.LAUGH,
             MoodIconEnum.LAUGH_BEAM,
             MoodIconEnum.LAUGH_SQUINT,
+            MoodIconEnum.LAUGH_WINK,
+            MoodIconEnum.MEH,
+            MoodIconEnum.MEH_BLANK,
+            MoodIconEnum.MEH_ROLLING_EYES,
+            MoodIconEnum.SAD_CRY,
+            MoodIconEnum.SAD_TEAR,
+            MoodIconEnum.SMILE,
+            MoodIconEnum.SMILE_BEAM,
+            MoodIconEnum.SMILE_WINK,
+            MoodIconEnum.SURPRISE,
+            MoodIconEnum.TIRED
         ];
     }
 
