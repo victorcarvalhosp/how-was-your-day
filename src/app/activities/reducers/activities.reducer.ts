@@ -1,4 +1,3 @@
-import {Action} from '@ngrx/store';
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {IActivity} from '../models/activity';
 import {ActivitiesActions, ActivitiesActionTypes} from '../actions/activities.actions';
@@ -57,6 +56,16 @@ export function activitiesReducer(state = initialActivitiesState, action: Activi
             return activitiesAdapter.upsertOne(action.payload.activity, {...state, loadingSave: false, saveErrorMessage: ''});
         case ActivitiesActionTypes.ACTIVITY_SAVE_FAILED:
             return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
+        case ActivitiesActionTypes.ACTIVITY_REMOVE_REQUESTED:
+            return {...state, loadingSave: true};
+        case ActivitiesActionTypes.ACTIVITY_REMOVE_SUCESS:
+            return activitiesAdapter.removeOne(action.payload.id, {...state, loadingSave: false, saveErrorMessage: ''});
+        case ActivitiesActionTypes.ACTIVITY_REMOVE_FAILED:
+            return {...state, loadingSave: false, saveErrorMessage: action.payload.saveErrorMessage};
+        case ActivitiesActionTypes.ACTIVITY_OPEN_ALERT_REMOVE:
+            return {...state, activity: action.payload.activity};
+        case ActivitiesActionTypes.ACTIVITY_CLOSE_ALERT_REMOVE:
+            return {...state};
         default:
             return state;
     }

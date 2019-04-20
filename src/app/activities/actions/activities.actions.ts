@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
 import {IActivity} from '../models/activity';
-import {DocumentChangeAction} from '@angular/fire/firestore';
 
 export enum ActivitiesActionTypes {
     ACTIVITIES_REQUESTED_WITH_CACHE = '[Activities] Activities Requested',
@@ -12,7 +11,12 @@ export enum ActivitiesActionTypes {
     ACTIVITY_CLOSE_MODAL = '[Activities] Close Modal',
     ACTIVITY_SAVE_REQUESTED = '[Activities] Save Request',
     ACTIVITY_SAVE_SUCESS = '[Activities] Save Sucess',
-    ACTIVITY_SAVE_FAILED = '[Activities] Save Failed'
+    ACTIVITY_SAVE_FAILED = '[Activities] Save Failed',
+    ACTIVITY_REMOVE_REQUESTED = '[Activities] Remove Request',
+    ACTIVITY_REMOVE_SUCESS = '[Activities] Remove Sucess',
+    ACTIVITY_REMOVE_FAILED = '[Activities] Remove Failed',
+    ACTIVITY_OPEN_ALERT_REMOVE = '[Activities] Open Alert Remove',
+    ACTIVITY_CLOSE_ALERT_REMOVE = '[Activities] Close Alert Remove',
 }
 
 export class ActivitiesRequestedWithCache implements Action {
@@ -70,6 +74,38 @@ export class ActivitiesRequestFailed implements Action {
     }
 }
 
+export class ActivityRemoveRequested implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_REMOVE_REQUESTED;
+
+    constructor(public payload: { id: string }) {
+    }
+}
+
+export class ActivityRemoveSucess implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_REMOVE_SUCESS;
+
+    constructor(public payload: { id: string }) {
+    }
+}
+
+export class ActivityRemoveFailed implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_REMOVE_FAILED;
+
+    constructor(public payload: { saveErrorMessage: string }) {
+    }
+}
+
+export class ActivityOpenAlertRemove implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_OPEN_ALERT_REMOVE;
+
+    constructor(public payload: { activity: IActivity }) {
+    }
+}
+
+export class ActivityCloseAlertRemove implements Action {
+    readonly type = ActivitiesActionTypes.ACTIVITY_CLOSE_ALERT_REMOVE;
+}
+
 
 export type ActivitiesActions =
     ActivitiesRequestedWithCache
@@ -81,4 +117,9 @@ export type ActivitiesActions =
     | ActivitySaveSucess
     | ActivitySaveFailed
     | ActivitiesRequestedFromApi
-    | ActivitiesRequestFailed;
+    | ActivitiesRequestFailed
+    | ActivityRemoveRequested
+    | ActivityRemoveSucess
+    | ActivityRemoveFailed
+    | ActivityOpenAlertRemove
+    | ActivityCloseAlertRemove;

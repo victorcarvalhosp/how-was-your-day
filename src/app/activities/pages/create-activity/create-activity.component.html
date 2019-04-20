@@ -35,6 +35,13 @@
                 </ion-row>
             </ion-grid>
 
+            <div class="ion-text-center" *ngIf="activity.id">
+                <ion-button *ngIf="!(loadingSave$ | async)" fill="clear" color="danger" (click)="presentRemoveAlertConfirm(activity)">
+                    <ion-icon slot="start" name="trash"></ion-icon>
+                    Remove this activity
+                </ion-button>
+            </div>
+
         </form>
     </ion-content>
 </ng-container>

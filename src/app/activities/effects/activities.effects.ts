@@ -10,7 +10,7 @@ import {
     ActivitiesRequestFailed,
     ActivitiesStopLoading,
     ActivityCloseModal,
-    ActivityOpenModal,
+    ActivityOpenModal, ActivityRemoveFailed, ActivityRemoveRequested, ActivityRemoveSucess,
     ActivitySaveFailed,
     ActivitySaveRequested,
     ActivitySaveSucess
@@ -20,7 +20,7 @@ import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {ActivitiesService} from '../services/activities.service';
 import {Observable, of} from 'rxjs';
 import {CreateActivityComponent} from '../pages/create-activity/create-activity.component';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 
 
@@ -29,7 +29,8 @@ export class ActivitiesEffects {
 
 
     constructor(private actions$: Actions, private store: Store<AppState>, private activitiesService: ActivitiesService,
-                private modalController: ModalController, private router: Router) {
+                private modalController: ModalController, private router: Router, public alertController: AlertController,
+                public toastController: ToastController) {
     }
 
     // @Effect()
@@ -127,6 +128,82 @@ export class ActivitiesEffects {
     saveActivitySucess$: Observable<Action> = this.actions$.pipe(
         ofType<ActivitySaveSucess>(ActivitiesActionTypes.ACTIVITY_SAVE_SUCESS),
         map(() => {
+            return new ActivityCloseModal();
+        })
+    );
+
+    @Effect({dispatch: false})
+    openActivityAlertRemove$ = this.actions$
+        .pipe(
+            ofType<ActivityOpenModal>(ActivitiesActionTypes.ACTIVITY_OPEN_ALERT_REMOVE),
+            map((action) => {
+
+                this.alertController.create({
+                    header: 'Remove activity!',
+                    message: `Are you sure you want to remove <strong>${action.payload.activity.name}</strong> activity?`,
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            cssClass: 'secondary',
+                            handler: (blah) => {
+                                console.log('Confirm Cancel: blah');
+                            }
+                        }, {
+                            text: 'Yes, remove',
+                            handler: () => {
+                                this.store.dispatch(new ActivityRemoveRequested({id: action.payload.activity.id}));
+                                console.log('Confirm Okay');
+                            }
+                        }
+                    ]
+                }).then(alert => alert.present());
+            })
+        );
+
+    @Effect({dispatch: false})
+    closeActivityAlertRemove$ = this.actions$
+        .pipe(
+            ofType<ActivityCloseModal>(ActivitiesActionTypes.ACTIVITY_CLOSE_ALERT_REMOVE),
+            tap(action => {
+                this.alertController.dismiss();
+            })
+        );
+
+    @Effect()
+    removeActivity$: Observable<Action> = this.actions$.pipe(
+        ofType<ActivityRemoveRequested>(ActivitiesActionTypes.ACTIVITY_REMOVE_REQUESTED),
+        map((action: ActivityRemoveRequested) => action.payload),
+        switchMap(payload => {
+            return this.activitiesService
+                .remove(payload.id)
+                .pipe(
+                    map(() => {
+                        return new ActivityRemoveSucess({id: payload.id});
+                    }),
+                    catchError(error => {
+                        console.log(error);
+                        return of(new ActivityRemoveFailed(error.message));
+                    })
+                );
+        })
+    );
+
+    @Effect()
+    removeActivitySucess$: Observable<Action> = this.actions$.pipe(
+        ofType<ActivityRemoveSucess>(ActivitiesActionTypes.ACTIVITY_REMOVE_SUCESS),
+        map(() => {
+            this.toastController.create({
+                message: 'Activity removed.',
+                duration: 2000,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log('Close Toast clicked');
+                        }
+                    }]
+            }).then(toast => toast.present());
             return new ActivityCloseModal();
         })
     );

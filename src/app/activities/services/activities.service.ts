@@ -30,6 +30,10 @@ export class ActivitiesService {
       return  this.db.collection<IActivity>(this.getPath()).valueChanges().pipe(take(1));
     }
 
+    remove(id: string): Observable<void> {
+        return from(this.db.collection(this.getPath()).doc(id).delete());
+    }
+
     getPath(): string {
         return `users/${localStorage.getItem('token')}/activities/`;
     }

@@ -4,11 +4,13 @@ import {AppState} from '../../../reducers';
 import {Observable} from 'rxjs';
 import {IActivity} from '../../models/activity';
 import {isActivitiesLoading, isActivityLoadingSave, selectActivity} from '../../selectors/activities.selectors';
-import {ActivityCloseModal, ActivityOpenModal, ActivitySaveRequested} from '../../actions/activities.actions';
+import {ActivityCloseModal, ActivityOpenAlertRemove, ActivityOpenModal, ActivitySaveRequested} from '../../actions/activities.actions';
 import {ModalController} from '@ionic/angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Validations} from '../../../shared/validators/validations';
 import {ActivityIconEnum} from '../../enums/activity-icon';
+import {IMood} from '../../../moods/models/mood';
+import {MoodOpenAlertRemove} from '../../../moods/actions/moods.actions';
 
 @Component({
     selector: 'app-create-activity',
@@ -71,6 +73,10 @@ export class CreateActivityComponent implements OnInit {
     getError(name: string) {
         const control = this.form.get(name);
         return this.validations.getControlErrors(control);
+    }
+
+    presentRemoveAlertConfirm(activity: IActivity) {
+        this.store.dispatch(new ActivityOpenAlertRemove({activity: activity}));
     }
 
 }
