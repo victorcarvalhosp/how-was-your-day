@@ -33,6 +33,7 @@ export class CreateEntryComponent implements OnInit {
     moods$: Observable<IMood[]>;
     activities$: Observable<IActivity[]>;
     private activities: IActivity[];
+    maxDate: string;
 
     constructor(private store: Store<AppState>,
                 private fb: FormBuilder) {
@@ -46,6 +47,7 @@ export class CreateEntryComponent implements OnInit {
         this.entry$ = this.store.pipe(select(selectEntry));
         this.loadingSave$ = this.store.pipe(select(isEntryLoadingSave));
         this.createForm();
+        this.maxDate = new Date().toISOString();
         // this.form.patchValue(this.data);
     }
 

@@ -1,18 +1,18 @@
 <div class="period">
   <ion-row justify-content-center>
-    <ion-col sizeSm="1" sizeXs="2">
+    <ion-col sizeSm="1" sizeXs="2" no-padding>
       <div float-left>
         <ion-button (click)="handlePreviousMonth()" fill="clear" color="primary">
           <ion-icon name="ios-arrow-back"></ion-icon>
         </ion-button>
       </div>
     </ion-col>
-    <ion-col sizeXs="8" sizeSm="6" sizeMd="4">
+    <ion-col sizeXs="8" sizeSm="6" sizeMd="4" no-padding>
       <div class="period-name">
         {{(period$ | async).startDate | date: 'MMM, y'}}
       </div>
     </ion-col>
-    <ion-col sizeSm="1" sizeXs="2">
+    <ion-col sizeSm="1" sizeXs="2" no-padding>
       <div float-right>
         <ion-button (click)="handleNextMonth()"  fill="clear" color="primary">
           <ion-icon name="ios-arrow-forward"></ion-icon>

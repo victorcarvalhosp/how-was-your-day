@@ -20,10 +20,10 @@ export const moodsAdapter: EntityAdapter<IMood> =
 
 function sortByOrder(a: IMood, b: IMood) {
     if (a.order < b.order) {
-        return -1;
+        return 1;
     }
     if (a.order > b.order) {
-        return 1;
+        return -1;
     }
     return 0;
 }

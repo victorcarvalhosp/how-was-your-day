@@ -1,11 +1,14 @@
 .period-name{
   text-align: center;
   padding-top: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -.03em;
+  text-align: center;
 }
 .period {
   width: 100%;
   text-align: center;
-  font-size: 18px;
 }
 
 ion-icon{
@@ -24,5 +27,6 @@ ion-icon{
   p {
     display: inline;
     font-size: 10px;
+
   }
 }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="entry$ | async as entry">
   <ion-header no-border>
-    <ion-toolbar class="transparent-toolbar">
+    <ion-toolbar class="transparent-toolbar" mode="ios">
       <ion-buttons slot="start">
         <ion-button (click)="closeModal()">
           <ion-icon name="close"></ion-icon>
@@ -26,7 +26,7 @@
                             <!--[inputDateConfig]="datePickerObj"></li-ionic4-datepicker>-->
       <ion-item inset>
         <ion-label position="floating">Date:</ion-label>
-        <ion-datetime formControlName="entryDate"></ion-datetime>
+        <ion-datetime formControlName="entryDate" [max]="maxDate"></ion-datetime>
       </ion-item>
 
       <div class="ion-text-center ion-padding-top">
