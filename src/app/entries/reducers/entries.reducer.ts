@@ -14,15 +14,15 @@ export interface EntriesState extends EntityState<IEntry> {
 
 export const entriesAdapter: EntityAdapter<IEntry> =
     createEntityAdapter<IEntry>({
-        sortComparer: sortByName
+        sortComparer: sortByDate
     });
 
-function sortByName(a: IEntry, b: IEntry) {
-    if (a.name < b.name) {
-        return -1;
-    }
-    if (a.name > b.name) {
+function sortByDate(a: IEntry, b: IEntry) {
+    if (a.date < b.date) {
         return 1;
+    }
+    if (a.date > b.date) {
+        return -1;
     }
     return 0;
 }

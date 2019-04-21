@@ -1,7 +1,31 @@
 <ion-header no-border>
-    <ion-toolbar class="transparent-toolbar">
+    <ion-toolbar class="transparent-toolbar" mode="ios">
         <app-period></app-period>
     </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+    <app-responsive-area>
+        <div padding>
+            <div style="display: block">
+                <canvas baseChart
+                        [colors]="chartColors"
+                        [data]="doughnutChartData"
+                        [labels]="doughnutChartLabels"
+                        [chartType]="doughnutChartType"
+                        [options]="barChartOptions"
+                        [legend]="false">
+                </canvas>
+            </div>
+            <div *ngFor="let mood of doughnutChartMoods; let i = index">
+                <p><span [ngStyle]="{color: chartColors[0].backgroundColor[i]}" style="font-weight: bold;">
+                <fa-icon [icon]="['fas',(mood.icon | moodIcon)]"
+                         size="2x" [ngStyle]="{color: mood.color}"></fa-icon>
+            </span>
+                    {{mood.name}} {{doughnutChartData[i]}} times(s)
+                </p>
+
+            </div>
+        </div>
+    </app-responsive-area>
+</ion-content>

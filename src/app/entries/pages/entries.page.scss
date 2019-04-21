@@ -19,10 +19,14 @@ ion-chip ion-label{
 
 ion-chip{
   height: 24px;
-  background: var(--ion-color-light);
+  background: transparent;
   margin: 1px;
 
   ion-label{
     color: var(--ion-color-medium);
+  }
+
+  ion-avatar{
+    --border-radius: 0;
   }
 }
