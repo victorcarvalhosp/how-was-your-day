@@ -20,6 +20,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {AuthEffects} from './auth/effects/auth.effects';
+import {AngularFireFunctionsModule, FunctionsRegionToken} from '@angular/fire/functions';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {AuthEffects} from './auth/effects/auth.effects';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,
+        AngularFireFunctionsModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
     ],
 
@@ -42,7 +44,9 @@ import {AuthEffects} from './auth/effects/auth.effects';
         StatusBar,
         SplashScreen,
         {provide: RouterStateSerializer, useClass: CustomSerializer},
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        { provide: FunctionsRegionToken, useValue: 'asia-northeast1' }
+
     ],
     bootstrap: [AppComponent]
 })

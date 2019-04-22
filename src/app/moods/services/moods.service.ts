@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Store} from '@ngrx/store';
 import {IMood} from '../models/mood';
-import {from, Observable} from 'rxjs';
+import {BehaviorSubject, EMPTY, from, merge, Observable} from 'rxjs';
 import {AppState} from '../../reducers';
-import {switchMap, take, map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
+import {MoodIconEnum} from '../enums/mood-icon';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class MoodsService {
         return new Observable<IMood[]>(observer => {
             moods.forEach((mood, index) => {
                 const reorderedMood = {...mood, order: index};
-                this.save(reorderedMood).pipe(map(res => res))
+                this.save(reorderedMood).pipe(map(res => res));
                 reorderedMoods.push(reorderedMood);
             });
             observer.next(reorderedMoods);
@@ -44,7 +45,7 @@ export class MoodsService {
     }
 
     findAll(): Observable<IMood[]> {
-      return  this.db.collection<IMood>(this.getPath()).valueChanges().pipe(take(1));
+        return this.db.collection<IMood>(this.getPath()).valueChanges().pipe(take(1));
     }
 
     getPath(): string {
