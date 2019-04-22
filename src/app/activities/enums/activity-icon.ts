@@ -59,7 +59,9 @@ export enum ActivityIconEnum {
     BATHTUB = 'BATHTUB',
     HANDBAG = 'HANDBAG',
     ALARM_CLOCK = 'ALARM_CLOCK',
-
+    DATE = 'DATE',
+    FRIENDSHIP = 'FRIENDSHIP',
+    PARTY = 'PARTY',
 }
 
 export namespace ActivityIconEnum {
@@ -186,6 +188,12 @@ export namespace ActivityIconEnum {
                 return '059-handbag.svg';
             case ActivityIconEnum.ALARM_CLOCK:
                 return '060-alarm-clock.svg';
+            case ActivityIconEnum.DATE:
+                return '061-date.svg';
+            case ActivityIconEnum.FRIENDSHIP:
+                return '062-friendship.svg';
+            case ActivityIconEnum.PARTY:
+                return '063-dance.svg';
         }
     }
 
@@ -251,6 +259,9 @@ export namespace ActivityIconEnum {
             ActivityIconEnum.BATHTUB,
             ActivityIconEnum.HANDBAG,
             ActivityIconEnum.ALARM_CLOCK,
+            ActivityIconEnum.DATE,
+            ActivityIconEnum.FRIENDSHIP,
+            ActivityIconEnum.PARTY,
         ];
     }
 

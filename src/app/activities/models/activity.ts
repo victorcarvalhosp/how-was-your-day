@@ -1,6 +1,6 @@
 import {ActivityIconEnum} from '../enums/activity-icon';
 
-export class IActivity {
+export interface IActivity {
   id: string;
   name: string;
   icon: ActivityIconEnum;
