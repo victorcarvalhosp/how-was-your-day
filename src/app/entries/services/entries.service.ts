@@ -18,13 +18,13 @@ export class EntriesService {
 
     }
 
-    save(entry: IEntry): Observable<void> {
+    save(entry: IEntry): Observable<IEntry> {
         if (entry.id) {
-            return from(this.db.collection(this.getPath()).doc(entry.id).update(entry));
+            return from(this.db.collection(this.getPath()).doc(entry.id).update(entry)).pipe(map(() => entry));
         } else {
             const idBefore = this.db.createId();
             const entryWithId: IEntry = {...entry, id: idBefore};
-            return from(this.db.collection(this.getPath()).doc(idBefore).set(entryWithId));
+            return from(this.db.collection(this.getPath()).doc(idBefore).set(entryWithId)).pipe(map(() => entryWithId));
         }
     }
 

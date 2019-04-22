@@ -17,11 +17,12 @@ import {
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {EntriesService} from '../services/entries.service';
 import {Observable, of} from 'rxjs';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {PeriodActionTypes, PeriodLoaded} from '../../period/actions/period.actions';
 import {selectPeriod} from '../../period/selectors/period.selectors';
 import {CreateEntryComponent} from '../pages/create-entry/create-entry.component';
+import {MoodCloseModal, MoodsActionTypes, MoodSaveSucess} from '../../moods/actions/moods.actions';
 
 
 @Injectable()
@@ -29,7 +30,7 @@ export class EntriesEffects {
 
 
     constructor(private actions$: Actions, private store: Store<AppState>, private entriesService: EntriesService,
-                private modalController: ModalController, private router: Router) {
+                private modalController: ModalController, private router: Router, public toastController: ToastController) {
     }
 
     @Effect()
@@ -91,8 +92,8 @@ export class EntriesEffects {
             return this.entriesService
                 .save(payload.entry)
                 .pipe(
-                    map(() => {
-                        return new EntrySaveSucess({entry: payload.entry});
+                    map((entryWithId) => {
+                        return new EntrySaveSucess({entry: entryWithId});
                     }),
                     catchError(error => {
                         console.log(error);
@@ -105,8 +106,39 @@ export class EntriesEffects {
     @Effect()
     saveEntrySucess$: Observable<Action> = this.actions$.pipe(
         ofType<EntrySaveSucess>(EntriesActionTypes.ENTRY_SAVE_SUCESS),
-        map(() => {
+        map((action) => {
+            this.toastController.create({
+                message: `Mood ${action.payload.entry.name} saved.`,
+                duration: 2000,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log('Close Toast clicked');
+                        }
+                    }]
+            }).then(toast => toast.present());
             return new EntryCloseModal();
+        })
+    );
+
+
+    @Effect()
+    saveMoodSucess$: Observable<Action> = this.actions$.pipe(
+        ofType<MoodSaveSucess>(MoodsActionTypes.MOOD_SAVE_SUCESS),
+        map((action) => {
+            this.toastController.create({
+                message: `Mood ${action.payload.mood.name} saved.`,
+                duration: 2000,
+                buttons: [
+                    {
+                        text: 'OK',
+                        handler: () => {
+                            console.log('Close Toast clicked');
+                        }
+                    }]
+            }).then(toast => toast.present());
+            return new MoodCloseModal();
         })
     );
 
