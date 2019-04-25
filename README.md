@@ -10,4 +10,5 @@ A pwa app made with ionic4/angular7 with ngrx and firebase.
 - [X] Very simple statistics
 
 You can download this app on Play Store: https://play.google.com/store/apps/details?id=dev.victorweb.hwyd
+
 Or use it as a PWA: https://how-was-your-day-98453.firebaseapp.com
