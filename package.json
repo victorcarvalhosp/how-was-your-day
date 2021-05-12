@@ -37,7 +37,7 @@
     "@ngrx/schematics": "^7.2.0",
     "@ngrx/store": "^7.2.0",
     "@ngrx/store-devtools": "^7.2.0",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "cordova-android": "7.1.4",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
